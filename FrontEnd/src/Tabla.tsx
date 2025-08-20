@@ -45,13 +45,20 @@ const Tabla: React.FC = () => {
     };
 
 
+    // Pagination logic
+        const itemsPerPage = 3;
+        const [currentPage, setCurrentPage] = useState(1);
+        const totalPages = Math.ceil(products.length / itemsPerPage);
+
+        /*const paginatedProducts = products.slice(
+            (currentPage - 1) * itemsPerPage,
+            currentPage * itemsPerPage
+        );*/
+
     return (
 
         <div className="w-full max-w-7xl mx-auto p-6 bg-white">
-            <div className="mb-6">
-                <h1 className="text-2xl font-bold text-gray-900 mb-2">Breakable Toy I</h1>
-                <p className="text-gray-600">Inventario de productos</p>
-            </div>
+            
 
             <div className="overflow-x-auto shadow-lg rounded-lg">
                 <table className = "w-full table-auto border-collapse bg-white">
@@ -123,6 +130,49 @@ const Tabla: React.FC = () => {
                 </div>
             )}
 
+        
+
+            <div className="w-full py-4 flex items-center gap-1">
+                <button
+                    className="inline-flex items-center justify-center border align-middle select-none font-sans font-medium text-center transition-all duration-300 ease-in disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed focus:shadow-none text-sm rounded-md py-2 px-4 bg-transparent border-transparent text-stone-800 hover:bg-stone-800/5 hover:border-stone-800/5 shadow-none hover:shadow-none"
+                    disabled={currentPage === 1}
+                    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                >
+                    <svg width="1.5em" height="1.5em" strokeWidth="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="currentColor" className="mr-1.5 h-4 w-4 stroke-2">
+                        <path d="M15 6L9 12L15 18" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"></path>
+                    </svg>
+                    Previous
+                </button>
+
+                <div className="flex-1 flex justify-center">
+                    {Array.from({ length: totalPages }, (_, i) => (
+                        <button
+                            key={i + 1}
+                            className={`inline-grid place-items-center border align-middle select-none font-sans font-medium text-center transition-all duration-300 ease-in disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-sm min-w-[38px] min-h-[38px] rounded-md ${
+                                currentPage === i + 1
+                                    ? 'shadow-sm hover:shadow-md bg-stone-800 border-stone-800 text-stone-50 hover:bg-stone-700 hover:border-stone-700'
+                                    : 'bg-transparent border-transparent text-stone-800 hover:bg-stone-800/5 hover:border-stone-800/5 shadow-none hover:shadow-none'
+                            }`}
+                            onClick={() => setCurrentPage(i + 1)}
+                        >
+                            {i + 1}
+                        </button>
+                    ))}
+                </div>
+
+                <button
+                    className="inline-flex items-center justify-center border align-middle select-none font-sans font-medium text-center transition-all duration-300 ease-in disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed focus:shadow-none text-sm rounded-md py-2 px-4 bg-transparent border-transparent text-stone-800 hover:bg-stone-800/5 hover:border-stone-800/5 shadow-none hover:shadow-none"
+                    disabled={currentPage === totalPages || totalPages === 0}
+                    onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                >
+                    Next
+                    <svg width="1.5em" height="1.5em" strokeWidth="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="currentColor" className="ml-1.5 h-4 w-4 stroke-2">
+                        <path d="M9 6L15 12L9 18" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"></path>
+                    </svg>
+                </button>
+            </div>
+
+            
         </div>
     
     );
