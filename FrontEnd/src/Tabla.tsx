@@ -1,6 +1,18 @@
 import React, { useState } from 'react';
 import {Edit, Trash2} from 'lucide-react';
 
+
+
+/*
+useEffect(() => {
+    fetch('https://api.example.com/products')
+        .then(response => response.json())
+        .then(data => setProducts(data))
+        .catch(error => console.error('Error al cargar productos:', error));
+}, []);
+*/
+
+
 //Codigo para harcodear la tabla
 interface Product {
     id: number;
