@@ -34,6 +34,17 @@ public class RestProductsController {
         return productList;
     }
 
+    @GetMapping("/products/{page}")
+    public List<Products> getProductsByPage(@PathVariable int page) {
+        int tamPag = 2; // Puedes ajustar el tamaño de página aquí
+        int inicio = (page - 1) * tamPag;
+        int fin = Math.min(inicio + tamPag, productList.size());
+        if (inicio >= productList.size() || page < 1) {
+            return new ArrayList<>();
+        }
+        return productList.subList(inicio, fin);
+    }
+
 
     @PostMapping("/products")
     public String addProduct(@RequestBody Products product) {
