@@ -1,5 +1,8 @@
 import {Button} from '@/components/ui/button'
 import {Card, CardContent, CardHeader, CardTitle} from '@/components/ui/card'
+import {TableP} from '../products/TableP'
+import {productData} from '../products/productData'
+import {columns} from '../products/columns'
 
 export default function AppTable(){
     return(
@@ -19,7 +22,9 @@ export default function AppTable(){
                     </Button>
                 </div>
             </CardHeader>
-            <CardContent></CardContent>
+            <CardContent>
+                <TableP data={productData} columns={columns}/>
+            </CardContent>
         </Card>
     )
 }
