@@ -1,9 +1,7 @@
-
 import type { ColumnDef } from '@tanstack/react-table';
 //import {ReactNode} from 'react';
 import { FaCheck } from 'react-icons/fa';
 import { IoClose } from 'react-icons/io5';
-import type { IconType } from 'react-icons';
 import ProductDD from '../BToyParts/Dropdowns/ProductDD';
 
 export type Product = {
@@ -13,8 +11,7 @@ export type Product = {
     price: number;
     inStock: boolean;
     stock: number;
-    expiryDate: string
-    icon: IconType;
+    expiryDate: string;
 }
 
 export const columns: ColumnDef<Product>[] = [

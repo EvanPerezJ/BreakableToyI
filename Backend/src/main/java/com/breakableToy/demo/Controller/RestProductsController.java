@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.ArrayList;
 import com.breakableToy.demo.Entities.Products;
 import org.springframework.web.bind.annotation.RequestBody;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -59,22 +61,44 @@ public class RestProductsController {
     }
 
     @GetMapping("/products")
-    public List<Products> getProductsPaginated(
+    public Map<String, Object> getProductsPaginated(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size) {
-        
+
         int totalProducts = productList.size();
         int totalPages = (int) Math.ceil((double) totalProducts / size);
-        
-        // Verificar que la página sea válida
-        if (page < 1 || page > totalPages) {
-            return new ArrayList<>();
+
+        // Asegura que totalPages sea al menos 1 si hay productos
+        if (totalProducts > 0 && totalPages == 0) {
+            totalPages = 1;
         }
-        
+
+        if (page < 1 || (totalPages > 0 && page > totalPages)) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("products", new ArrayList<>());
+            response.put("page", page);
+            response.put("size", size);
+            response.put("totalPages", totalPages);
+            response.put("totalProducts", totalProducts);
+            return response;
+        }
+
         int inicio = (page - 1) * size;
         int fin = Math.min(inicio + size, totalProducts);
-        
-        return productList.subList(inicio, fin);
+
+        List<Map<String, Object>> paginatedProducts = new ArrayList<>();
+        for (Products product : productList.subList(inicio, fin)) {
+            paginatedProducts.add(productToMap(product));
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("products", paginatedProducts);
+        response.put("page", page);
+        response.put("size", size);
+        response.put("totalPages", totalPages);
+        response.put("totalProducts", totalProducts);
+
+        return response;
     }
 
 
@@ -139,4 +163,15 @@ public class RestProductsController {
         return removed ? "Product deleted successfully" : "Product not found";
     }
 
+    private Map<String, Object> productToMap(Products product) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", product.getId());
+        map.put("name", product.getProductName());
+        map.put("category", product.getCategory());
+        map.put("price", product.getUnitPrice());
+        map.put("inStock", product.isInStock());
+        map.put("stock", product.getStock());
+        map.put("expiryDate", product.getExpDate());
+        return map;
+    }
 }

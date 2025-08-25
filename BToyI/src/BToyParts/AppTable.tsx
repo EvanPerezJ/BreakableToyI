@@ -1,11 +1,25 @@
-import {Button} from '@/components/ui/button'
-import {Card, CardContent, CardHeader, CardTitle} from '@/components/ui/card'
-import {TableP} from '../products/TableP'
-import {productData} from '../products/productData'
-import {columns} from '../products/columns'
+import { useEffect, useState } from "react";
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { TableP } from '../products/TableP';
+import { fetchProducts } from '../products/productData';
+import { columns } from '../products/columns';
+import type { Product } from '../products/columns';
 
-export default function AppTable(){
-    return(
+export default function AppTable() {
+    const [products, setProducts] = useState<Product[]>([]);
+    const [page] = useState(1);
+    const [size] = useState(10);
+    const [totalProducts, setTotalProducts] = useState(0);
+
+    useEffect(() => {
+        fetchProducts(page, size).then((data) => {
+            setProducts(data.products);
+            setTotalProducts(data.totalProducts);
+        });
+    }, [page, size]);
+
+    return (
         <Card className="py-4 mt-12 flex flex-col shadow-none border-none">
             <CardHeader className="flex p-2">
                 <div className="flex w-full justify-between items-center">
@@ -14,7 +28,7 @@ export default function AppTable(){
                             Products
                         </CardTitle>
                         <p className="text-sm text-slate-600">
-                            xx products
+                            {totalProducts} products
                         </p>
                     </div>
                     <Button>
@@ -23,8 +37,8 @@ export default function AppTable(){
                 </div>
             </CardHeader>
             <CardContent>
-                <TableP data={productData} columns={columns}/>
+                <TableP data={products} columns={columns} />
             </CardContent>
         </Card>
-    )
+    );
 }
