@@ -43,7 +43,7 @@ export function CategoryDD(){
                 <PopoverTrigger asChild>
                     <Button variant={"secondary"} className="h-10">
                         <LuGitPullRequestDraft/>
-                        Availability
+                        Category
                     </Button>
                 </PopoverTrigger>
                 <PopoverContent className="p-0 w-56" align="end" side="bottom">

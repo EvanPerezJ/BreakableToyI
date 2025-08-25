@@ -5,6 +5,8 @@ import { Separator } from "@/components/ui/separator";
 import { IoClose } from "react-icons/io5";
 import { AvalilabilityDD } from "../BToyParts/Dropdowns/AvailabilityDD";
 import { CategoryDD } from "../BToyParts/Dropdowns/CategoryDD";
+import { BiFirstPage, BiLastPage } from "react-icons/bi";
+import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import type{
   ColumnDef
 } from "@tanstack/react-table"
@@ -12,6 +14,7 @@ import type{
 import{
   flexRender,
   getCoreRowModel,
+  getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table"
 
@@ -23,20 +26,36 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { useState } from "react";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
 }
 
+export interface PaginationType {
+    pageIndex: number;
+    pageSize: number;
+}
+
 export function TableP<TData, TValue>({
     columns,
     data,
 }: DataTableProps<TData, TValue>) {
+    const [pagination, setPagination] = useState<PaginationType>({
+        pageIndex: 0,
+        pageSize: 10,
+    });
+
     const table = useReactTable({
         data,
         columns,
-        getCoreRowModel: getCoreRowModel()
+        state: {
+            pagination,
+        },
+        onPaginationChange: setPagination,
+        getCoreRowModel: getCoreRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
     });
 
     return (
@@ -60,7 +79,10 @@ export function TableP<TData, TValue>({
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
                                     return (
-                                        <TableHead key={header.id}>
+                                        <TableHead
+                                            key={header.id}
+                                            className="bg-primary text-primary-foreground"
+                                        >
                                             {header.isPlaceholder
                                                 ? null
                                                 : flexRender(
@@ -102,7 +124,34 @@ export function TableP<TData, TValue>({
                         )}
                     </TableBody>
                 </Table>
+            </div>
+
+            <div className="flex items-center justify-between mt-5">
+                {/*<PaginationSelection pagination={pagination} setPagination={setPagination}/>*/}
+                <div className="flex gap-6 items-center">
+                        <span className="text-sm text-gray-500">
+                            Page {pagination.pageIndex + 1} of {table.getPageCount()}
+                        </span>
+                        <div className="flex items-center space-x-2 justify-end py-4"> 
+                            <Button variant="outline" size="sm" className="size-9 w-12" onClick={() => table.setPageIndex(0)} disabled={!table.getCanPreviousPage()}>
+                                <BiFirstPage />
+                            </Button>
+
+                            <Button variant="outline" size="sm" className="size-9 w-12" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+                                <GrFormPrevious />
+                            </Button>
+
+                            <Button variant="outline" size="sm" className="size-9 w-12" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+                                <GrFormNext />
+                            </Button>
+
+                            <Button variant="outline" size="sm" className="size-9 w-12" onClick={() => table.setPageIndex(table.getPageCount() - 1)} disabled={!table.getCanNextPage()}>
+                                <BiLastPage />
+                            </Button>
+                        </div>
                 </div>
+            </div>
+
         </div>
     )
 }

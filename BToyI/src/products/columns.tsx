@@ -4,6 +4,7 @@ import type { ColumnDef } from '@tanstack/react-table';
 import { FaCheck } from 'react-icons/fa';
 import { IoClose } from 'react-icons/io5';
 import type { IconType } from 'react-icons';
+import ProductDD from '../BToyParts/Dropdowns/ProductDD';
 
 export type Product = {
     id: number;
@@ -64,12 +65,6 @@ export const columns: ColumnDef<Product>[] = [
         footer: props => props.column.id,
     },
     {
-        accessorKey: 'inStock',
-        header: 'In Stock',
-        cell: info => info.getValue() ? <FaCheck className="text-green-500 mx-auto"/> : <IoClose className="text-red-500 mx-auto"/>,
-        footer: props => props.column.id,
-    },
-    {
         accessorKey: 'stock',
         header: 'Stock',
         cell: info => info.getValue(),
@@ -80,7 +75,21 @@ export const columns: ColumnDef<Product>[] = [
         header: 'Expiry Date',
         cell: info => info.getValue(),
         footer: props => props.column.id,
-    }
+    },
+    {
+        id: "actions",
+        header: 'Actions',
+        cell: ({ row }) => {
+            return <ProductDD row={row} />;
+        }
+    },
+    {
+        accessorKey: 'inStock',
+        header: 'In Stock',
+        cell: info => info.getValue() ? <FaCheck className="text-green-500 mx-auto"/> : <IoClose className="text-red-500 mx-auto"/>,
+        footer: props => props.column.id,
+    },
+
 ];
 
 
