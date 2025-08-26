@@ -6,12 +6,12 @@ import ProductDD from '../BToyParts/Dropdowns/ProductDD';
 
 export type Product = {
     id: number;
-    name: string;
+    productName: string;
     category: string;
-    price: number;
+    unitPrice: number;
     inStock: boolean;
     stock: number;
-    expiryDate: string;
+    expDate: string;
 }
 
 export const columns: ColumnDef<Product>[] = [
@@ -44,7 +44,7 @@ export const columns: ColumnDef<Product>[] = [
         footer: props => props.column.id,
     },
     {
-        accessorKey: 'name',
+        accessorKey: 'productName',
         header: 'Name',
         cell: info => info.getValue(),
         footer: props => props.column.id,
@@ -56,7 +56,7 @@ export const columns: ColumnDef<Product>[] = [
         footer: props => props.column.id,
     },
     {
-        accessorKey: 'price',
+        accessorKey: 'unitPrice',
         header: 'Price',
         cell: info => `$${info.getValue()}`,
         footer: props => props.column.id,
@@ -68,7 +68,7 @@ export const columns: ColumnDef<Product>[] = [
         footer: props => props.column.id,
     },
     {
-        accessorKey: 'expiryDate',
+        accessorKey: 'expDate',
         header: 'Expiry Date',
         cell: info => info.getValue(),
         footer: props => props.column.id,
