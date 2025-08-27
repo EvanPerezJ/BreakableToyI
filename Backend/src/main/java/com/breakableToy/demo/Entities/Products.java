@@ -14,15 +14,6 @@ public class Products {
     public Products(){
     }
 
-    public Products(Long id, String productName, float unitPrice, String category, String expDate, int stock){
-        this.id = id;
-        this.productName = productName;
-        this.unitPrice = unitPrice;
-        this.category = category;
-        this.expDate = expDate;
-        this.stock = stock;
-    }
-
     public Products(Long id, String productName, float unitPrice, String category, String expDate, int stock, boolean inStock, String createdDate, String modifiedDate) {
         this.id = id;
         this.productName = productName;
