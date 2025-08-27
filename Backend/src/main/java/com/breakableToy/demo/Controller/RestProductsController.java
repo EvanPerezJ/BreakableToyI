@@ -14,6 +14,7 @@ import com.breakableToy.demo.Entities.Products;
 import org.springframework.web.bind.annotation.RequestBody;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Comparator;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -65,12 +66,70 @@ public class RestProductsController {
     @GetMapping("/products")
     public Map<String, Object> getProductsPaginated(
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String sortBy,
+            @RequestParam(defaultValue = "asc") String sortOrder,
+            @RequestParam(required = false) String category,
+            @RequestParam(defaultValue = "All") String availability) {
 
-        int totalProducts = productList.size();
+        // 1. Filtrado por categorías (pueden ser varias) y disponibilidad
+        List<Products> filteredList = new ArrayList<>(productList);
+
+        // Filtrar por varias categorías
+        if (category != null && !category.isEmpty()) {
+            String[] categories = category.split(",");
+            for (int i = 0; i < categories.length; i++) {
+                categories[i] = categories[i].trim();
+            }
+            filteredList.removeIf(p -> {
+                boolean found = false;
+                for (String cat : categories) {
+                    if (p.getCategory().equalsIgnoreCase(cat)) {
+                        found = true;
+                        break;
+                    }
+                }
+                return !found;
+            });
+        }
+
+        // Filtrar por disponibilidad
+        if (!"All".equalsIgnoreCase(availability)) {
+            boolean inStock = "InStock".equalsIgnoreCase(availability);
+            filteredList.removeIf(p -> p.isInStock() != inStock);
+        }
+
+        // 2. Ordenamiento
+        if (sortBy != null && !sortBy.isEmpty()) {
+            Comparator<Products> comparator = null;
+            switch (sortBy) {
+                case "name":
+                    comparator = Comparator.comparing(Products::getProductName, String.CASE_INSENSITIVE_ORDER);
+                    break;
+                case "category":
+                    comparator = Comparator.comparing(Products::getCategory, String.CASE_INSENSITIVE_ORDER);
+                    break;
+                case "price":
+                    comparator = Comparator.comparing(Products::getUnitPrice);
+                    break;
+                case "stock":
+                    comparator = Comparator.comparing(Products::getStock);
+                    break;
+                case "expiryDate":
+                    comparator = Comparator.comparing(Products::getExpDate);
+                    break;
+            }
+            if (comparator != null) {
+                if ("desc".equalsIgnoreCase(sortOrder)) {
+                    comparator = comparator.reversed();
+                }
+                filteredList.sort(comparator);
+            }
+        }
+
+        int totalProducts = filteredList.size();
         int totalPages = (int) Math.ceil((double) totalProducts / size);
 
-        // Asegura que totalPages sea al menos 1 si hay productos
         if (totalProducts > 0 && totalPages == 0) {
             totalPages = 1;
         }
@@ -89,7 +148,7 @@ public class RestProductsController {
         int fin = Math.min(inicio + size, totalProducts);
 
         List<Map<String, Object>> paginatedProducts = new ArrayList<>();
-        for (Products product : productList.subList(inicio, fin)) {
+        for (Products product : filteredList.subList(inicio, fin)) {
             paginatedProducts.add(productToMap(product));
         }
 
@@ -102,7 +161,6 @@ public class RestProductsController {
 
         return response;
     }
-
 
     @PostMapping("/products")
     public String addProduct(@RequestBody Products product) {
