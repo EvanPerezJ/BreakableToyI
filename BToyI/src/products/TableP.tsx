@@ -33,6 +33,14 @@ interface DataTableProps<TData, TValue> {
     page: number
     totalPages: number
     setPage: (page: number) => void
+
+    totalProducts?: number
+    pageSize?: number
+    isLoading?: boolean
+    onSortChange?: (columnId: string, direction: 'asc' | 'desc' ) => void
+    onCategoryFilter?: (categories: string[]) => void
+    onAvailabilityFilter?: (availability: 'All' | 'InStock' | 'OutOfStock') => void
+    onClearFilters?: () => void
 }
 
 export function TableP<TData, TValue>({

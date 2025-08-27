@@ -95,6 +95,8 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
     // Funciones para controlar el hook
     const updateParams = (newParams: Partial<ProductsParams>) => {
         setParams((prev: ProductsParams) => ({ ...prev, ...newParams }));
+        console.log("Updated params:", { ...params, ...newParams }); // Debugging line
+        
     };
 
     const changePage = (newPage: number) => {
@@ -113,6 +115,8 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
             'stock': 'stock',
             'expiryDate': 'expiryDate'
         };
+
+        console.log("updateSorting called with:", columnId, direction); // Debugging line
 
         const apiColumnName = columnMapping[columnId];
         if (apiColumnName) {

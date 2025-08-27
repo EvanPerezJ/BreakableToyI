@@ -1,6 +1,6 @@
 import { TableP } from '../products/TableP';
 import { columns } from '../products/columns';
-import { useProducts } from '../products/productData'; // ← Ahora importas el hook del mismo archivo
+import { useProducts } from '../products/productData';
 
 export default function AppTable() {
     // Usar el hook que está en productData.tsx
@@ -10,7 +10,6 @@ export default function AppTable() {
         error,
         pagination,
         changePage,
-        changePageSize,
         updateSorting,
         filterByCategory,
         filterByAvailability,
@@ -54,23 +53,12 @@ export default function AppTable() {
             {/* Controles opcionales - puedes quitarlos si no los quieres */}
             <div className="flex items-center justify-between">
                 <div className="text-sm text-gray-500">
-                    Mostrando {products.length} de {pagination.totalProducts} productos
+                    {pagination.totalProducts} products found.
                 </div>
                 
                 <div className="flex items-center space-x-2">
-                    <select 
-                        value={pagination.size} 
-                        onChange={(e) => changePageSize(Number(e.target.value))}
-                        className="border rounded px-2 py-1"
-                    >
-                        <option value={5}>5 por página</option>
-                        <option value={10}>10 por página</option>
-                        <option value={20}>20 por página</option>
-                        <option value={50}>50 por página</option>
-                    </select>
-                    
                     <button 
-                        onClick={clearFilters}
+                        onClick={refetch}
                         className="px-3 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200"
                     >
                         Limpiar filtros
@@ -90,7 +78,6 @@ export default function AppTable() {
                 pageSize={pagination.size}
                 isLoading={loading}
                 onSortChange={updateSorting}
-                onPageSizeChange={changePageSize}
                 onCategoryFilter={filterByCategory}
                 onAvailabilityFilter={filterByAvailability}
                 onClearFilters={clearFilters}

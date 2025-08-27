@@ -23,21 +23,21 @@ type Avalilability = {
 }
 
 const availabilityOptions: Avalilability[] = [
-    {
-        label: 'All',
-        value: 'all',
-        icon: <FaInbox className="mr-2 h-4 w-4" />
-    },
-    {
-        label: 'In Stock',
-        value: 'in_stock',
-        icon: <LuGitPullRequestDraft className="mr-2 h-4 w-4" />
-    },
-    {
-        label: 'Out of Stock',
-        value: 'out_of_stock',
-        icon: <IoClose className="mr-2 h-4 w-4" />
-    }
+  {
+    label: 'All',
+    value: 'All',
+    icon: <FaInbox className="mr-2 h-4 w-4" />
+  },
+  {
+    label: 'In Stock',
+    value: 'In Stock',
+    icon: <LuGitPullRequestDraft className="mr-2 h-4 w-4" />
+  },
+  {
+    label: 'Out of Stock',
+    value: 'Out of Stock',
+    icon: <IoClose className="mr-2 h-4 w-4" />
+  }
 ];
 
 export function AvalilabilityDD(){

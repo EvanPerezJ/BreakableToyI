@@ -3,11 +3,17 @@ import type { ColumnDef } from '@tanstack/react-table';
 import { FaCheck } from 'react-icons/fa';
 import { IoClose } from 'react-icons/io5';
 import ProductDD from '../BToyParts/Dropdowns/ProductDD';
+import SortingDD from '@/BToyParts/Dropdowns/SortingDD';
+//import { useProducts } from '../../products/productData';
+/*
 import { IoMdArrowDown } from 'react-icons/io';
 import { IoMdArrowUp } from 'react-icons/io';
 import { ArrowUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem } from '@/components/ui/dropdown-menu';
+
+*/
+
 
 export type Product = {
     id: number;
@@ -19,7 +25,7 @@ export type Product = {
     expiryDate: string; // Cambié de expDate a expiryDate para coincidir con la API
 }
 
-// Helper function para crear headers con sorting
+/* Helper function para crear headers con sorting
 const createSortableHeader = (title: string, columnId: string) => {
     return ({ column }: any) => {
         const isSorted = column.getIsSorted();
@@ -50,78 +56,91 @@ const createSortableHeader = (title: string, columnId: string) => {
             </DropdownMenu>
         );
     };
-};
+}; */
 
-export const columns: ColumnDef<Product>[] = [
+ export const columns: ColumnDef<Product>[] = [
+    
+
     {
-        id: 'select',
-        header: ({ table }) => (
-            <input
-                type="checkbox"
-                checked={table.getIsAllPageRowsSelected()}
-                onChange={table.getToggleAllPageRowsSelectedHandler()}
-                aria-label="Select all rows"
-            />
+      id: 'select',
+      header: ({ table }) => (
+        <input
+          type="checkbox"
+          checked={table.getIsAllPageRowsSelected()}
+          onChange={table.getToggleAllPageRowsSelectedHandler()}
+          aria-label="Select all rows"
+        />
+      ),
+      cell: ({ row }) => (
+        <input
+          type="checkbox"
+          checked={row.getIsSelected()}
+          onChange={row.getToggleSelectedHandler()}
+          aria-label={`Select row ${row.index + 1}`}
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      accessorKey: 'id',
+      header: 'ID',
+      cell: info => info.getValue(),
+      enableSorting: false,
+    },
+    {
+      accessorKey: 'name',
+      header: ({ column }) => (
+        <SortingDD title="Name" columnId="name" column={column}/>
+      ),
+      cell: info => info.getValue(),
+    },
+    {
+      accessorKey: 'category',
+      header: ({ column }) => (
+        <SortingDD title="Category" columnId="category" column={column}/>
+      ),
+      cell: info => info.getValue(),
+    },
+    {
+      accessorKey: 'price',
+      header: ({ column }) => (
+        <SortingDD title="Price" columnId="price" column={column} />
+      ),
+      cell: info => `$${Number(info.getValue()).toFixed(2)}`,
+    },
+    {
+      accessorKey: 'stock',
+      header: ({ column }) => (
+        <SortingDD title="Stock" columnId="stock" column={column}/>
+      ),
+      cell: info => Number(info.getValue()).toLocaleString(),
+    },
+    {
+      accessorKey: 'expiryDate',
+      header: ({ column }) => (
+        <SortingDD title="Expiry Date" columnId="expiryDate" column={column}/>
+      ),
+      cell: info => {
+        const date = new Date(info.getValue() as string);
+        return date.toLocaleDateString();
+      },
+    },
+    {
+      accessorKey: 'inStock',
+      header: 'In Stock',
+      cell: info =>
+        info.getValue() ? (
+          <FaCheck className="text-green-500 mx-auto" />
+        ) : (
+          <IoClose className="text-red-500 mx-auto" />
         ),
-        cell: ({ row }) => (
-            <input
-                type="checkbox"
-                checked={row.getIsSelected()}
-                onChange={row.getToggleSelectedHandler()}
-                aria-label={`Select row ${row.index + 1}`}
-            />
-        ),
-        enableSorting: false,
-        enableHiding: false,
+      enableSorting: false,
     },
     {
-        accessorKey: 'id',
-        header: 'ID',
-        cell: info => info.getValue(),
-        enableSorting: false, // Generalmente no ordenamos por ID desde la UI
+      id: 'actions',
+      header: 'Actions',
+      cell: ({ row }) => <ProductDD row={row} />,
+      enableSorting: false,
     },
-    {
-        accessorKey: 'name',
-        header: createSortableHeader('Name', 'name'),
-        cell: info => info.getValue(),
-    },
-    {
-        accessorKey: 'category',
-        header: createSortableHeader('Category', 'category'),
-        cell: info => info.getValue(),
-    },
-    {
-        accessorKey: 'price',
-        header: createSortableHeader('Price', 'price'),
-        cell: info => `$${Number(info.getValue()).toFixed(2)}`, // Mejor formato para precio
-    },
-    {
-        accessorKey: 'stock',
-        header: createSortableHeader('Stock', 'stock'),
-        cell: info => Number(info.getValue()).toLocaleString(), // Formato numérico
-    },
-    {
-        accessorKey: 'expiryDate',
-        header: createSortableHeader('Expiry Date', 'expiryDate'),
-        cell: info => {
-            const date = new Date(info.getValue() as string);
-            return date.toLocaleDateString(); // Formato de fecha más legible
-        },
-    },
-    {
-        accessorKey: 'inStock',
-        header: 'In Stock',
-        cell: info => info.getValue() ? 
-            <FaCheck className="text-green-500 mx-auto"/> : 
-            <IoClose className="text-red-500 mx-auto"/>,
-        enableSorting: false, // Generalmente filtramos en lugar de ordenar booleanos
-    },
-    {
-        id: "actions",
-        header: 'Actions',
-        cell: ({ row }) => {
-            return <ProductDD row={row} />;
-        },
-        enableSorting: false,
-    },
-];
+  ];
