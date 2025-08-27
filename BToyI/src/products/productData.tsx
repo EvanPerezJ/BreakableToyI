@@ -15,7 +15,7 @@ export interface ProductsParams {
     sortBy?: string;
     sortOrder?: 'asc' | 'desc';
     category?: string;
-    availability?: 'All' | 'InStock' | 'OutOfStock';
+    availability?: 'All' | 'InStock' | 'OutOfStock' | string;
 }
 
 // Configuración de la API
@@ -68,6 +68,10 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
         ...initialParams
     });
 
+    // Estados para los filtros actuales (para pasarlos a los componentes)
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+    const [selectedAvailability, setSelectedAvailability] = useState<string | null>(null);
+
     const fetchData = async () => {
         setLoading(true);
         setError(null);
@@ -96,7 +100,6 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
     const updateParams = (newParams: Partial<ProductsParams>) => {
         setParams((prev: ProductsParams) => ({ ...prev, ...newParams }));
         console.log("Updated params:", { ...params, ...newParams }); // Debugging line
-        
     };
 
     const changePage = (newPage: number) => {
@@ -129,20 +132,40 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
     };
 
     const filterByCategory = (categories: string[]) => {
+        setSelectedCategories(categories);
         updateParams({ 
-            category: categories.join(','),
+            category: categories.length > 0 ? categories.join(',') : '',
             page: 1 
         });
     };
 
-    const filterByAvailability = (availability: 'All' | 'InStock' | 'OutOfStock') => {
+    const filterByAvailability = (availability: string | null) => {
+        // Mapear los valores del frontend a los valores que espera la API
+        let apiAvailability: string;
+        
+        if (availability === null || availability === 'All') {
+            apiAvailability = 'All';
+            setSelectedAvailability(null);
+        } else if (availability === 'InStock') {
+            apiAvailability = 'InStock';
+            setSelectedAvailability('InStock');
+        } else if (availability === 'OutofStock') {
+            apiAvailability = 'OutOfStock'; // La API espera 'OutOfStock' con 'Of' mayúscula
+            setSelectedAvailability('OutofStock');
+        } else {
+            apiAvailability = 'All';
+            setSelectedAvailability(null);
+        }
+
         updateParams({ 
-            availability,
+            availability: apiAvailability,
             page: 1 
         });
     };
 
     const clearFilters = () => {
+        setSelectedCategories([]);
+        setSelectedAvailability(null);
         updateParams({
             sortBy: '',
             sortOrder: 'asc',
@@ -169,7 +192,10 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
         filterByCategory,
         filterByAvailability,
         clearFilters,
-        refetch: fetchData
+        refetch: fetchData,
+        // Exponer los estados de filtros para los componentes
+        selectedCategories,
+        selectedAvailability
     };
 };
 

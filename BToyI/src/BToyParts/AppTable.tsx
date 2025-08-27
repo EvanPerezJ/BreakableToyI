@@ -1,6 +1,9 @@
 import { TableP } from '../products/TableP';
 import { columns } from '../products/columns'; // Función que recibe updateSorting
 import { useProducts } from '../products/productData';
+import { CategoryDD } from '../components/CategoryDD';
+import { AvailabilityDD } from '../components/AvailabilityDD';
+import * as React from "react";
 
 export default function AppTable() {
     const {
@@ -13,7 +16,10 @@ export default function AppTable() {
         filterByCategory,
         filterByAvailability,
         clearFilters,
-        refetch
+        refetch,
+        // Estados para los filtros actuales
+        selectedCategories,
+        selectedAvailability
     } = useProducts({
         page: 1,
         size: 10
@@ -49,13 +55,25 @@ export default function AppTable() {
 
     return (
         <div className="space-y-4">
-            {/* Controles opcionales */}
+            {/* Controles de filtros */}
             <div className="flex items-center justify-between">
                 <div className="text-sm text-gray-500">
                     Mostrando {products.length} de {pagination.totalProducts} productos
                 </div>
                 
                 <div className="flex items-center space-x-2">
+                    {/* Componente de filtro por categoría */}
+                    <CategoryDD
+                        selectedCategories={selectedCategories}
+                        onCategoryChange={filterByCategory}
+                        products={products}
+                    />
+                    
+                    {/* Componente de filtro por disponibilidad */}
+                    <AvailabilityDD
+                        selectedAvailability={selectedAvailability}
+                        onAvailabilityChange={filterByAvailability}
+                    />
                     
                     <button 
                         onClick={clearFilters}
@@ -78,9 +96,10 @@ export default function AppTable() {
                 pageSize={pagination.size}
                 isLoading={loading}
                 onSortChange={updateSorting} // También puedes pasarlo como prop si lo necesitas
-                onCategoryFilter={filterByCategory}
-                onAvailabilityFilter={filterByAvailability}
-                onClearFilters={clearFilters}
+                // Remover estos props ya que los filtros se manejan arriba
+                // onCategoryFilter={filterByCategory}
+                // onAvailabilityFilter={filterByAvailability}
+                // onClearFilters={clearFilters}
             />
         </div>
     );

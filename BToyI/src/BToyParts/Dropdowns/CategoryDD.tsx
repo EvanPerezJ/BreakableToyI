@@ -12,7 +12,6 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Separator } from '@/components/ui/separator';
 import { Checkbox } from '@/components/ui/checkbox';
 import { LuGitPullRequestDraft } from 'react-icons/lu';
-import { useProducts } from '../../products/productData'; // Ajusta la ruta
 
 type Category = {
     label: string;
@@ -22,20 +21,22 @@ type Category = {
 interface CategoryDDProps {
     selectedCategories?: string[]; // Categorías actualmente seleccionadas
     onCategoryChange?: (categories: string[]) => void; // Callback cuando cambien las categorías
+    products?: any[]; // Array de productos para extraer categorías
 }
 
-export function CategoryDD({ selectedCategories = [], onCategoryChange }: CategoryDDProps) {
+export function CategoryDD({ 
+    selectedCategories = [], 
+    onCategoryChange,
+    products = [] 
+}: CategoryDDProps) {
     const [open, setOpen] = React.useState(false);
     const [localSelectedCategories, setLocalSelectedCategories] = React.useState<string[]>(selectedCategories);
     
-    // Obtener todas las categorías disponibles desde el hook
-    const { products } = useProducts();
-    
-    // Extraer categorías únicas de los productos
+    // Crear opciones de categorías desde los productos
     const categoryOptions: Category[] = React.useMemo(() => {
         const uniqueCategories = [...new Set(products.map((product: any) => product.category as string))];
         return uniqueCategories
-            .filter((category): category is string => typeof category === 'string')
+            .filter((category): category is string => typeof category === 'string' && category.trim() !== '')
             .map((category: string) => ({
                 label: category,
                 value: category
