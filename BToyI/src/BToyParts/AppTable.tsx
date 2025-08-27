@@ -9,7 +9,6 @@ export default function AppTable() {
         error,
         pagination,
         changePage,
-        changePageSize,
         updateSorting, // ← Esta función necesita pasarse a las columnas
         filterByCategory,
         filterByAvailability,
@@ -57,17 +56,6 @@ export default function AppTable() {
                 </div>
                 
                 <div className="flex items-center space-x-2">
-                    <select 
-                        value={pagination.size} 
-                        onChange={(e) => changePageSize(Number(e.target.value))}
-                        className="border rounded px-2 py-1"
-                        disabled={loading}
-                    >
-                        <option value={5}>5 por página</option>
-                        <option value={10}>10 por página</option>
-                        <option value={20}>20 por página</option>
-                        <option value={50}>50 por página</option>
-                    </select>
                     
                     <button 
                         onClick={clearFilters}
@@ -90,7 +78,6 @@ export default function AppTable() {
                 pageSize={pagination.size}
                 isLoading={loading}
                 onSortChange={updateSorting} // También puedes pasarlo como prop si lo necesitas
-                onPageSizeChange={changePageSize}
                 onCategoryFilter={filterByCategory}
                 onAvailabilityFilter={filterByAvailability}
                 onClearFilters={clearFilters}

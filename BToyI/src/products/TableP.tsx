@@ -1,8 +1,8 @@
-import {Badge} from "@/components/ui/badge";
+//import {Badge} from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import { IoClose } from "react-icons/io5";
+//import { Separator } from "@/components/ui/separator";
+//import { IoClose } from "react-icons/io5";
 import { AvalilabilityDD } from "../BToyParts/Dropdowns/AvailabilityDD";
 import { CategoryDD } from "../BToyParts/Dropdowns/CategoryDD";
 import { BiFirstPage, BiLastPage } from "react-icons/bi";
@@ -67,7 +67,7 @@ export function TableP<TData, TValue>({
                     </div>
                 </div>
 
-                <FilterArea/>
+                {/*<FilterArea/>*/}
             </div>
 
             <div className="rounded-md border">
@@ -157,12 +157,11 @@ export function TableP<TData, TValue>({
     )
 }
 
-function FilterArea(){
+//function FilterArea(){
 
-    return(
-
-        <div className="flex gap-3">
-            {/* Availability */}
+    //return(
+       {/* <div className="flex gap-3"> */}
+            {/* Availability 
             <div className="border-dashed border rounded-sm p-1 flex gap-2 items-center px-2 text-sm">
                 <span className="text-gray-600">Availability</span>
                 <Separator orientation="vertical"/>
@@ -170,10 +169,10 @@ function FilterArea(){
                     <Badge variant={"secondary"}>Item 1</Badge>
                     <Badge variant={"secondary"}>Item 1</Badge>
                 </div>
-            </div>
+            </div> */}
 
 
-            {/* Category */}
+            {/* Category
             <div className="border-dashed border rounded-sm p-1 flex gap-2 items-center px-2 text-sm">
                 <span className="text-gray-600">Category</span>
                 <Separator orientation="vertical"/>
@@ -188,8 +187,7 @@ function FilterArea(){
                 <IoClose/>
             </Button>
 
-        </div>
+        </div>  */}
+   // )
 
-    )
-
-}
+//}

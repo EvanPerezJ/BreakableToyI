@@ -3,7 +3,7 @@ import type { ColumnDef } from '@tanstack/react-table';
 import { FaCheck } from 'react-icons/fa';
 import { IoClose } from 'react-icons/io5';
 import ProductDD from '../BToyParts/Dropdowns/ProductDD';
-import SortingDD from '@/BToyParts/Dropdowns/SortingDD';
+import SortingDD from '../BToyParts/Dropdowns/SortingDD';
 //import { useProducts } from '../../products/productData';
 /*
 import { IoMdArrowDown } from 'react-icons/io';
