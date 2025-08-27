@@ -62,7 +62,10 @@ export function TableP<TData, TValue>({
                 <div className="flex justify-between items-center">
                     <Input placeholder="Search by name" className="max-w-sm h-10"/>
                     <div className="flex items-center gap-4">
-                        <AvalilabilityDD/>
+                        <CategoryDD 
+                        selectedCategories={selectedCategories}
+                        onCategoryChange={filterByCategory}
+                    />
                         <CategoryDD/>
                     </div>
                 </div>
