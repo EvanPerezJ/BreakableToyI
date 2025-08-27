@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 //import { Separator } from "@/components/ui/separator";
 //import { IoClose } from "react-icons/io5";
-import { AvalilabilityDD } from "../BToyParts/Dropdowns/AvailabilityDD";
+import { AvailabilityDD } from "../BToyParts/Dropdowns/AvailabilityDD";
 import { CategoryDD } from "../BToyParts/Dropdowns/CategoryDD";
 import { BiFirstPage, BiLastPage } from "react-icons/bi";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
@@ -66,7 +66,7 @@ export function TableP<TData, TValue>({
                         selectedCategories={selectedCategories}
                         onCategoryChange={filterByCategory}
                     />
-                        <CategoryDD/>
+                        <AvailabilityDD onAvailabilityChange={onAvailabilityFilter()}/>
                     </div>
                 </div>
 
