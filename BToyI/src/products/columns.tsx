@@ -1,29 +1,60 @@
+
 import type { ColumnDef } from '@tanstack/react-table';
-//import {ReactNode} from 'react';
 import { FaCheck } from 'react-icons/fa';
 import { IoClose } from 'react-icons/io5';
 import ProductDD from '../BToyParts/Dropdowns/ProductDD';
-import { IoMdArrowDown} from 'react-icons/io';
-import { IoMdArrowUp} from 'react-icons/io';
+import { IoMdArrowDown } from 'react-icons/io';
+import { IoMdArrowUp } from 'react-icons/io';
 import { ArrowUpDown } from 'lucide-react';
-
 import { Button } from '@/components/ui/button';
-
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem } from '@/components/ui/dropdown-menu';
 
 export type Product = {
     id: number;
-    productName: string;
+    name: string; // Cambié de productName a name para coincidir con la API
     category: string;
-    unitPrice: number;
+    price: number; // Cambié de unitPrice a price para coincidir con la API
     inStock: boolean;
     stock: number;
-    expDate: string;
+    expiryDate: string; // Cambié de expDate a expiryDate para coincidir con la API
 }
+
+// Helper function para crear headers con sorting
+const createSortableHeader = (title: string, columnId: string) => {
+    return ({ column }: any) => {
+        const isSorted = column.getIsSorted();
+        const SortingIcon = isSorted === "asc" 
+            ? IoMdArrowUp // Cambié el orden de los iconos
+            : isSorted === "desc" 
+                ? IoMdArrowDown 
+                : ArrowUpDown;
+
+        return (
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" aria-label={`Sort by ${title}`}>
+                        {title}
+                        <SortingIcon className="ml-2 h-4 w-4" />
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align='start' side='bottom'>
+                    <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
+                        <IoMdArrowUp className="mr-2 h-4 w-4"/>
+                        Asc
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
+                        <IoMdArrowDown className="mr-2 h-4 w-4"/>
+                        Desc
+                    </DropdownMenuItem> 
+                </DropdownMenuContent>
+            </DropdownMenu>
+        );
+    };
+};
 
 export const columns: ColumnDef<Product>[] = [
     {
-        accessorKey: 'select',
+        id: 'select',
         header: ({ table }) => (
             <input
                 type="checkbox"
@@ -40,7 +71,6 @@ export const columns: ColumnDef<Product>[] = [
                 aria-label={`Select row ${row.index + 1}`}
             />
         ),
-        footer: props => props.column.id,
         enableSorting: false,
         enableHiding: false,
     },
@@ -48,198 +78,50 @@ export const columns: ColumnDef<Product>[] = [
         accessorKey: 'id',
         header: 'ID',
         cell: info => info.getValue(),
-        footer: props => props.column.id,
+        enableSorting: false, // Generalmente no ordenamos por ID desde la UI
     },
     {
         accessorKey: 'name',
-        header: ({ column }) => {
-            const isSorted = column.getIsSorted();
-            const SortingIcon = isSorted === "asc" 
-                ? IoMdArrowDown
-                : isSorted === "desc" 
-                    ? IoMdArrowUp 
-                    : ArrowUpDown;
-
-            return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" aria-label="Sort by Product Name">
-                            Name
-                            <SortingIcon className="ml-2 h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align='start' side='bottom'>
-                        <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
-                            <IoMdArrowUp className="mr-2 h-4 w-4"/>
-                            Asc
-                        </DropdownMenuItem>
-
-                        <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
-                            <IoMdArrowDown className="mr-2 h-4 w-4"/>
-                            Desc
-                        </DropdownMenuItem> 
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            );
-        },
+        header: createSortableHeader('Name', 'name'),
         cell: info => info.getValue(),
-        footer: props => props.column.id,
     },
     {
         accessorKey: 'category',
-        header:({ column }) => {
-            const isSorted = column.getIsSorted();
-            const SortingIcon = isSorted === "asc" 
-                ? IoMdArrowDown
-                : isSorted === "desc" 
-                    ? IoMdArrowUp 
-                    : ArrowUpDown;
-
-            return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" aria-label="Sort by Product Name">
-                            Category
-                            <SortingIcon className="ml-2 h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align='start' side='bottom'>
-                        <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
-                            <IoMdArrowUp className="mr-2 h-4 w-4"/>
-                            Asc
-                        </DropdownMenuItem>
-
-                        <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
-                            <IoMdArrowDown className="mr-2 h-4 w-4"/>
-                            Desc
-                        </DropdownMenuItem> 
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            );
-        },
+        header: createSortableHeader('Category', 'category'),
         cell: info => info.getValue(),
-        footer: props => props.column.id,
     },
     {
         accessorKey: 'price',
-        header: ({ column }) => {
-            const isSorted = column.getIsSorted();
-            const SortingIcon = isSorted === "asc" 
-                ? IoMdArrowDown
-                : isSorted === "desc" 
-                    ? IoMdArrowUp 
-                    : ArrowUpDown;
-
-            return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" aria-label="Sort by Product Name">
-                            Price
-                            <SortingIcon className="ml-2 h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align='start' side='bottom'>
-                        <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
-                            <IoMdArrowUp className="mr-2 h-4 w-4"/>
-                            Asc
-                        </DropdownMenuItem>
-
-                        <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
-                            <IoMdArrowDown className="mr-2 h-4 w-4"/>
-                            Desc
-                        </DropdownMenuItem> 
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            );
-        },
-        cell: info => `$${info.getValue()}`,
-        footer: props => props.column.id,
+        header: createSortableHeader('Price', 'price'),
+        cell: info => `$${Number(info.getValue()).toFixed(2)}`, // Mejor formato para precio
     },
     {
         accessorKey: 'stock',
-        header: ({ column }) => {
-            const isSorted = column.getIsSorted();
-            const SortingIcon = isSorted === "asc" 
-                ? IoMdArrowDown
-                : isSorted === "desc" 
-                    ? IoMdArrowUp 
-                    : ArrowUpDown;
-
-            return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" aria-label="Sort by Product Name">
-                            Stock
-                            <SortingIcon className="ml-2 h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align='start' side='bottom'>
-                        <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
-                            <IoMdArrowUp className="mr-2 h-4 w-4"/>
-                            Asc
-                        </DropdownMenuItem>
-
-                        <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
-                            <IoMdArrowDown className="mr-2 h-4 w-4"/>
-                            Desc
-                        </DropdownMenuItem> 
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            );
-        },
-        cell: info => info.getValue(),
-        footer: props => props.column.id,
+        header: createSortableHeader('Stock', 'stock'),
+        cell: info => Number(info.getValue()).toLocaleString(), // Formato numérico
     },
     {
         accessorKey: 'expiryDate',
-        header: ({ column }) => {
-            const isSorted = column.getIsSorted();
-            const SortingIcon = isSorted === "asc" 
-                ? IoMdArrowDown
-                : isSorted === "desc" 
-                    ? IoMdArrowUp 
-                    : ArrowUpDown;
-
-            return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" aria-label="Sort by Product Name">
-                            Expiry Date
-                            <SortingIcon className="ml-2 h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align='start' side='bottom'>
-                        <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
-                            <IoMdArrowUp className="mr-2 h-4 w-4"/>
-                            Asc
-                        </DropdownMenuItem>
-
-                        <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
-                            <IoMdArrowDown className="mr-2 h-4 w-4"/>
-                            Desc
-                        </DropdownMenuItem> 
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            );
+        header: createSortableHeader('Expiry Date', 'expiryDate'),
+        cell: info => {
+            const date = new Date(info.getValue() as string);
+            return date.toLocaleDateString(); // Formato de fecha más legible
         },
-        cell: info => info.getValue(),
-        footer: props => props.column.id,
+    },
+    {
+        accessorKey: 'inStock',
+        header: 'In Stock',
+        cell: info => info.getValue() ? 
+            <FaCheck className="text-green-500 mx-auto"/> : 
+            <IoClose className="text-red-500 mx-auto"/>,
+        enableSorting: false, // Generalmente filtramos en lugar de ordenar booleanos
     },
     {
         id: "actions",
         header: 'Actions',
         cell: ({ row }) => {
             return <ProductDD row={row} />;
-        }
+        },
+        enableSorting: false,
     },
-    {
-        accessorKey: 'inStock',
-        header: 'In Stock',
-        cell: info => info.getValue() ? <FaCheck className="text-green-500 mx-auto"/> : <IoClose className="text-red-500 mx-auto"/>,
-        footer: props => props.column.id,
-    },
-
 ];
-
-
-
