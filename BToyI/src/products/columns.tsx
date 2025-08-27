@@ -58,7 +58,7 @@ const createSortableHeader = (title: string, columnId: string) => {
     };
 }; */
 
- export const columns: ColumnDef<Product>[] = [
+export const columns = (updateSorting: (col: string, dir: 'asc' | 'desc') => void): ColumnDef<Product>[] => [
     
 
     {
@@ -91,35 +91,35 @@ const createSortableHeader = (title: string, columnId: string) => {
     {
       accessorKey: 'name',
       header: ({ column }) => (
-        <SortingDD title="Name" columnId="name" column={column}/>
+        <SortingDD title="Name" columnId="name" column={column} updateSorting={updateSorting}/>
       ),
       cell: info => info.getValue(),
     },
     {
       accessorKey: 'category',
       header: ({ column }) => (
-        <SortingDD title="Category" columnId="category" column={column}/>
+        <SortingDD title="Category" columnId="category" column={column} updateSorting={updateSorting}/>
       ),
       cell: info => info.getValue(),
     },
     {
       accessorKey: 'price',
       header: ({ column }) => (
-        <SortingDD title="Price" columnId="price" column={column} />
+        <SortingDD title="Price" columnId="price" column={column} updateSorting={updateSorting}/>
       ),
       cell: info => `$${Number(info.getValue()).toFixed(2)}`,
     },
     {
       accessorKey: 'stock',
       header: ({ column }) => (
-        <SortingDD title="Stock" columnId="stock" column={column}/>
+        <SortingDD title="Stock" columnId="stock" column={column} updateSorting={updateSorting}/>
       ),
       cell: info => Number(info.getValue()).toLocaleString(),
     },
     {
       accessorKey: 'expiryDate',
       header: ({ column }) => (
-        <SortingDD title="Expiry Date" columnId="expiryDate" column={column}/>
+        <SortingDD title="Expiry Date" columnId="expiryDate" column={column} updateSorting={updateSorting}/>
       ),
       cell: info => {
         const date = new Date(info.getValue() as string);

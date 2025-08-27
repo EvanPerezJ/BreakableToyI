@@ -69,7 +69,7 @@ export default function AppTable() {
             {/* Tu componente TableP original */}
             <TableP
                 data={products}
-                columns={columns}
+                columns={columns(updateSorting)}
                 page={pagination.page}
                 totalPages={pagination.totalPages}
                 setPage={changePage}

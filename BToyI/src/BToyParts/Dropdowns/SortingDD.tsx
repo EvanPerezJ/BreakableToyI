@@ -15,11 +15,11 @@ interface SortingDDProps {
   title: string;
   columnId: string;
   column: Column<Product, unknown>;
+  updateSorting: (col: string, dir: 'asc' | 'desc') => void;
 }
 
 
-const SortingDD: React.FC<SortingDDProps> = ({ title, columnId, column }) => {
-  const { updateSorting } = useProducts(); // ← Aquí se conecta al hook
+const SortingDD: React.FC<SortingDDProps> = ({ title, columnId, column, updateSorting }) => {
 
   const isSorted = column.getIsSorted();
   const SortingIcon =
