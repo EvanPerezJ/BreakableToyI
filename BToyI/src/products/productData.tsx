@@ -109,8 +109,12 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
             if (!res.ok) throw new Error("Error fetching metrics");
             const data = await res.json();
             setMetrics(data);
-        } catch (err: any) {
-            setMetricsError(err.message);
+        } catch (err: unknown) { // <-- Cambiado de 'any' a 'unknown'
+            if (err instanceof Error) {
+                setMetricsError(err.message);
+            } else {
+                setMetricsError("Unknown error fetching metrics");
+            }
         } finally {
             setMetricsLoading(false);
         }
@@ -198,8 +202,12 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
     // Effect para fetch cuando cambien los parámetros
     useEffect(() => {
         fetchData();
-        fetchMetrics();
     }, [params.page, params.size, params.sortBy, params.sortOrder, params.category, params.availability]);
+
+    // Efecto para cargar métricas automáticamente cuando cambian los productos
+    useEffect(() => {
+        fetchMetrics();
+    }, [products]);
 
     return {
         products,
@@ -221,7 +229,7 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
         metrics,
         metricsLoading,
         metricsError,
-        refetchMetrics: fetchMetrics,
+        refetchMetrics: fetchMetrics, // <-- esto funciona manualmente
     };
 };
 

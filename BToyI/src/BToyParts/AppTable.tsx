@@ -114,10 +114,9 @@ export default function AppTable() {
 
             <Section />
             <TableM
-                metrics={metrics}
+                data={metrics}
                 loading={metricsLoading}
                 error={metricsError}
-                refetch={refetchMetrics}
             />
         </div>
     );

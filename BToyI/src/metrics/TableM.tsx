@@ -1,18 +1,32 @@
-import { useMetrics } from "./MetricsData";
 import { columnsMetrics } from "./ColumnsM";
 import { useReactTable, getCoreRowModel, flexRender } from "@tanstack/react-table";
+import type { Metrics } from "./ColumnsM";
 
-export default function TableM() {
-  const { metrics, loading, error } = useMetrics();
+interface TableMProps {
+  data: Metrics[];
+  loading: boolean;
+  error: string | null;
+  refetch?: () => void; // <-- opcional
+}
 
+export default function TableM({ data, loading, error, refetch }: TableMProps) {
   const table = useReactTable({
-    data: metrics,
+    data,
     columns: columnsMetrics,
     getCoreRowModel: getCoreRowModel(),
   });
 
   if (loading) return <div>Loading metrics...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (error) return (
+    <div>
+      Error: {error}
+      {refetch && (
+        <button onClick={refetch} className="ml-2 px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">
+          Reintentar
+        </button>
+      )}
+    </div>
+  );
 
   return (
     <table>

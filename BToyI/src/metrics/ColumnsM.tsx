@@ -1,30 +1,31 @@
-import type { ColumnDef } from '@tanstack/react-table';
+import type { ColumnDef, CellContext } from '@tanstack/react-table';
 
 export type Metrics = {
-    name: string; // Cambié de productName a name para coincidir con la API
+    name: string;
     totalProducts: number;
-    totalValue: number; // Cambié de unitPrice a price para coincidir con la API
-}
+    totalValue: number;
+    averageValue: number;
+};
 
 export const columnsMetrics: ColumnDef<Metrics>[] = [
     {
         accessorKey: 'name',
         header: 'Product Name',
-        cell: (info) => info.getValue(),
+        cell: (info: CellContext<Metrics, unknown>) => info.getValue(),
     },
     {
         accessorKey: 'totalProducts',
         header: 'Total Products in stock',
-        cell: info => info.getValue(),
+        cell: (info: CellContext<Metrics, unknown>) => info.getValue(),
     },
     {
         accessorKey: 'totalValue',
         header: 'Total Value in stock',
-        cell: (info) => `$${info.getValue()}`, // Formateo del precio con un símbolo de dólar
+        cell: (info: CellContext<Metrics, unknown>) => `$${info.getValue()}`,
     },
     {
         accessorKey: 'averageValue',
         header: 'Average Value in stock',
-        cell: info => `$${info.getValue()}`, // Formateo del precio con un símbolo de dólar
+        cell: (info: CellContext<Metrics, unknown>) => `$${info.getValue()}`,
     },
 ];
