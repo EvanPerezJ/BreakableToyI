@@ -1,8 +1,9 @@
 import { TableP } from '../products/TableP';
 import { columns } from '../products/columns'; // Función que recibe updateSorting
 import { useProducts } from '../products/productData';
-import { CategoryDD } from '../components/CategoryDD';
-import { AvailabilityDD } from '../components/AvailabilityDD';
+import { CategoryDD } from './Dropdowns/CategoryDD';
+import { AvailabilityDD } from './Dropdowns/AvailabilityDD';
+import { Button } from '@/components/ui/button';
 import * as React from "react";
 
 export default function AppTable() {
@@ -63,9 +64,9 @@ export default function AppTable() {
                 
                 <div className="flex items-center space-x-2">
                     {/* Componente de filtro por categoría */}
-                    <CategoryDD
+                    <CategoryDD     
                         selectedCategories={selectedCategories}
-                        onCategoryChange={filterByCategory}
+                        onCategoryChange={(categories) => filterByCategory(categories)}
                         products={products}
                     />
                     
@@ -75,13 +76,18 @@ export default function AppTable() {
                         onAvailabilityChange={filterByAvailability}
                     />
                     
-                    <button 
+                    <Button variant="secondary"
                         onClick={clearFilters}
-                        className="px-3 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200"
                         disabled={loading}
                     >
-                        Limpiar filtros
-                    </button>
+                        Reset filters
+                    </Button>
+                    <Button variant={'default'}
+                        onClick={clearFilters}
+                        disabled={loading}
+                    >
+                        Add product
+                    </Button>
                 </div>
             </div>
 

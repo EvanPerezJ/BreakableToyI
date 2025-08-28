@@ -3,8 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 //import { Separator } from "@/components/ui/separator";
 //import { IoClose } from "react-icons/io5";
-import { AvailabilityDD } from "../BToyParts/Dropdowns/AvailabilityDD";
-import { CategoryDD } from "../BToyParts/Dropdowns/CategoryDD";
+//import { AvailabilityDD } from "../BToyParts/Dropdowns/AvailabilityDD";
+//import { CategoryDD } from "../BToyParts/Dropdowns/CategoryDD";
 import { BiFirstPage, BiLastPage } from "react-icons/bi";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import type{
@@ -58,16 +58,16 @@ export function TableP<TData, TValue>({
 
     return (
         <div className="">
-            <div className="flex flex-col gap-3 mb-8 mt-6">
+           <div className="flex flex-col gap-3 mb-8 mt-6">
                 <div className="flex justify-between items-center">
                     <Input placeholder="Search by name" className="max-w-sm h-10"/>
-                    <div className="flex items-center gap-4">
+                    {/* <div className="flex items-center gap-4">
                         <CategoryDD 
-                        selectedCategories={selectedCategories}
-                        onCategoryChange={filterByCategory}
+                        selectedCategories={}
+                        onCategoryChange={onCategoryFilter()}
                     />
                         <AvailabilityDD onAvailabilityChange={onAvailabilityFilter()}/>
-                    </div>
+                    </div>*/}
                 </div>
 
                 {/*<FilterArea/>*/}
