@@ -63,6 +63,48 @@ public class RestProductsController {
         return " Saludos desde el controlador RestProductsController";
     }
 
+    @GetMapping("/metrics")
+public List<Map<String, Object>> getMetricsByCategory() {
+    Map<String, Map<String, Object>> categoryMetrics = new HashMap<>();
+
+    for (Products product : productList) {
+        String category = product.getCategory();
+        Map<String, Object> metric = categoryMetrics.getOrDefault(category, new HashMap<>());
+
+        int stock = product.getStock();
+        float totalValue = product.getUnitPrice() * stock;
+
+        // Inicializar si es la primera vez
+        if (!metric.containsKey("name")) {
+            metric.put("name", category);
+            metric.put("totalProducts", 0);
+            metric.put("totalValue", 0.0f);
+            metric.put("averageValue", 0.0f);
+            metric.put("productCount", 0); // para promedio
+        }
+
+        // Sumar valores
+        metric.put("totalProducts", (int) metric.get("totalProducts") + stock);
+        metric.put("totalValue", (float) metric.get("totalValue") + totalValue);
+        metric.put("averageValue", (float) metric.get("averageValue") + product.getUnitPrice());
+        metric.put("productCount", (int) metric.get("productCount") + 1);
+
+        categoryMetrics.put(category, metric);
+        }
+
+        // Calcular promedio y preparar resultado
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (Map<String, Object> metric : categoryMetrics.values()) {
+            int count = (int) metric.get("productCount");
+            float avg = count > 0 ? ((float) metric.get("averageValue")) / count : 0.0f;
+            metric.put("averageValue", avg);
+            metric.remove("productCount"); // quitar campo auxiliar
+            result.add(metric);
+        }
+
+        return result;
+}
+
     @GetMapping("/products")
     public Map<String, Object> getProductsPaginated(
             @RequestParam(defaultValue = "1") int page,

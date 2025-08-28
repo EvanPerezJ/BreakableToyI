@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 //import { CategoryDD } from "../BToyParts/Dropdowns/CategoryDD";
 import { BiFirstPage, BiLastPage } from "react-icons/bi";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
+import Section from "@/BToyParts/Section";
 import type{
   ColumnDef
 } from "@tanstack/react-table"
@@ -156,6 +157,10 @@ export function TableP<TData, TValue>({
                     </div>
                 </div>
             </div>
+
+            <Section/>
+            
+
         </div>
     )
 }

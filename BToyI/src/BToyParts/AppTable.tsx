@@ -5,6 +5,8 @@ import { CategoryDD } from './Dropdowns/CategoryDD';
 import { AvailabilityDD } from './Dropdowns/AvailabilityDD';
 import { Button } from '@/components/ui/button';
 import ProductDialog from './ProductDialog/ProductDialog';
+import Section from './Section';
+import TableM from '../metrics/TableM';
 import * as React from "react";
 
 export default function AppTable() {
@@ -14,14 +16,19 @@ export default function AppTable() {
         error,
         pagination,
         changePage,
-        updateSorting, // ← Esta función necesita pasarse a las columnas
+        updateSorting,
         filterByCategory,
         filterByAvailability,
         clearFilters,
         refetch,
         // Estados para los filtros actuales
         selectedCategories,
-        selectedAvailability
+        selectedAvailability,
+        // NUEVO: métricas
+        metrics,
+        metricsLoading,
+        metricsError,
+        refetchMetrics,
     } = useProducts({
         page: 1,
         size: 10
@@ -103,6 +110,14 @@ export default function AppTable() {
                 // onCategoryFilter={filterByCategory}
                 // onAvailabilityFilter={filterByAvailability}
                 // onClearFilters={clearFilters}
+            />
+
+            <Section />
+            <TableM
+                metrics={metrics}
+                loading={metricsLoading}
+                error={metricsError}
+                refetch={refetchMetrics}
             />
         </div>
     );

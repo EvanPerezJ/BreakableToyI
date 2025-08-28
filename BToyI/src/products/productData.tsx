@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { Product } from "./columns";
+import type { Metrics } from "../metrics/ColumnsM"; // Asegúrate de que la ruta sea correcta
 
 export interface ProductApiResponse {
     products: Product[];
@@ -72,6 +73,10 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const [selectedAvailability, setSelectedAvailability] = useState<string | null>(null);
 
+    const [metrics, setMetrics] = useState<Metrics[]>([]);
+    const [metricsLoading, setMetricsLoading] = useState(false);
+    const [metricsError, setMetricsError] = useState<string | null>(null);
+
     const fetchData = async () => {
         setLoading(true);
         setError(null);
@@ -93,6 +98,21 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
             console.error('Error fetching products:', err);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const fetchMetrics = async () => {
+        setMetricsLoading(true);
+        setMetricsError(null);
+        try {
+            const res = await fetch(`${API_URL}/metrics`);
+            if (!res.ok) throw new Error("Error fetching metrics");
+            const data = await res.json();
+            setMetrics(data);
+        } catch (err: any) {
+            setMetricsError(err.message);
+        } finally {
+            setMetricsLoading(false);
         }
     };
 
@@ -178,6 +198,7 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
     // Effect para fetch cuando cambien los parámetros
     useEffect(() => {
         fetchData();
+        fetchMetrics();
     }, [params.page, params.size, params.sortBy, params.sortOrder, params.category, params.availability]);
 
     return {
@@ -195,7 +216,12 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
         refetch: fetchData,
         // Exponer los estados de filtros para los componentes
         selectedCategories,
-        selectedAvailability
+        selectedAvailability,
+        // NUEVO: métricas
+        metrics,
+        metricsLoading,
+        metricsError,
+        refetchMetrics: fetchMetrics,
     };
 };
 
