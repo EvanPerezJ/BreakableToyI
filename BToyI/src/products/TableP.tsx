@@ -1,10 +1,10 @@
-import {Badge} from "@/components/ui/badge";
+//import {Badge} from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import { IoClose } from "react-icons/io5";
-import { AvalilabilityDD } from "../BToyParts/Dropdowns/AvailabilityDD";
-import { CategoryDD } from "../BToyParts/Dropdowns/CategoryDD";
+//import { Separator } from "@/components/ui/separator";
+//import { IoClose } from "react-icons/io5";
+//import { AvailabilityDD } from "../BToyParts/Dropdowns/AvailabilityDD";
+//import { CategoryDD } from "../BToyParts/Dropdowns/CategoryDD";
 import { BiFirstPage, BiLastPage } from "react-icons/bi";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import type{
@@ -33,6 +33,14 @@ interface DataTableProps<TData, TValue> {
     page: number
     totalPages: number
     setPage: (page: number) => void
+
+    totalProducts?: number
+    pageSize?: number
+    isLoading?: boolean
+    onSortChange?: (columnId: string, direction: 'asc' | 'desc' ) => void
+    onCategoryFilter?: (categories: string[]) => void
+    onAvailabilityFilter?: (availability: 'All' | 'InStock' | 'OutOfStock') => void
+    onClearFilters?: () => void
 }
 
 export function TableP<TData, TValue>({
@@ -50,16 +58,19 @@ export function TableP<TData, TValue>({
 
     return (
         <div className="">
-            <div className="flex flex-col gap-3 mb-8 mt-6">
+           <div className="flex flex-col gap-3 mb-8 mt-6">
                 <div className="flex justify-between items-center">
                     <Input placeholder="Search by name" className="max-w-sm h-10"/>
-                    <div className="flex items-center gap-4">
-                        <AvalilabilityDD/>
-                        <CategoryDD/>
-                    </div>
+                    {/* <div className="flex items-center gap-4">
+                        <CategoryDD 
+                        selectedCategories={}
+                        onCategoryChange={onCategoryFilter()}
+                    />
+                        <AvailabilityDD onAvailabilityChange={onAvailabilityFilter()}/>
+                    </div>*/}
                 </div>
 
-                <FilterArea/>
+                {/*<FilterArea/>*/}
             </div>
 
             <div className="rounded-md border">
@@ -149,12 +160,11 @@ export function TableP<TData, TValue>({
     )
 }
 
-function FilterArea(){
+//function FilterArea(){
 
-    return(
-
-        <div className="flex gap-3">
-            {/* Availability */}
+    //return(
+       {/* <div className="flex gap-3"> */}
+            {/* Availability 
             <div className="border-dashed border rounded-sm p-1 flex gap-2 items-center px-2 text-sm">
                 <span className="text-gray-600">Availability</span>
                 <Separator orientation="vertical"/>
@@ -162,10 +172,10 @@ function FilterArea(){
                     <Badge variant={"secondary"}>Item 1</Badge>
                     <Badge variant={"secondary"}>Item 1</Badge>
                 </div>
-            </div>
+            </div> */}
 
 
-            {/* Category */}
+            {/* Category
             <div className="border-dashed border rounded-sm p-1 flex gap-2 items-center px-2 text-sm">
                 <span className="text-gray-600">Category</span>
                 <Separator orientation="vertical"/>
@@ -180,8 +190,7 @@ function FilterArea(){
                 <IoClose/>
             </Button>
 
-        </div>
+        </div>  */}
+   // )
 
-    )
-
-}
+//}
