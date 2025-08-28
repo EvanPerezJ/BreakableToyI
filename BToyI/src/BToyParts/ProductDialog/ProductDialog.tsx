@@ -27,11 +27,11 @@ export default function ProductDialog(){
         } = useProductActions();
 
     
-    const [name, setName] = React.useState('');
+    const [productName, setName] = React.useState('');
     const [category, setCategory] = React.useState('');
-    const [price, setPrice] = React.useState(0);
+    const [unitPrice, setPrice] = React.useState(0);
     const [stock, setStock] = React.useState(0);
-    const [expiryDate, setExpiryDate] = React.useState('');
+    const [expDate, setExpiryDate] = React.useState('');
 
 
 
@@ -50,14 +50,14 @@ export default function ProductDialog(){
                 <Separator />
                 <div className='flex flex-col gap-2 mt-1'>
                     <div className='grid grid-cols-2 gap-7'>
-                        <ProductName value={name} onChange={setName}/>
+                        <ProductName value={productName} onChange={setName}/>
                         <ProductCategory value={category} onChange={setCategory}/>
                     </div>
 
                     <div className='mt-3 grid grid-cols-3 gap-7 max-lg:grid-cols-2 max-lg:gap-1 max-sm:grid-cols-1'>
-                        <Price value={price} onChange={setPrice}/>
+                        <Price value={unitPrice} onChange={setPrice}/>
                         <Stock value={stock} onChange={setStock}/>
-                        <ExpiryDate value={expiryDate} onChange={setExpiryDate} />
+                        <ExpiryDate value={expDate} onChange={setExpiryDate} />
                     </div>
                 </div>
                 <DialogFooter className='mt-9 mb-4 flex items-center gap-4'>
@@ -72,10 +72,10 @@ export default function ProductDialog(){
                             const today = new Date().toISOString().split('T')[0];
 
                             const product = {
-                            name,
-                            price,
+                            productName,
+                            unitPrice,
                             category,
-                            expiryDate,
+                            expDate,
                             stock,
                             inStock: stock > 0,
                             createdDate: today,

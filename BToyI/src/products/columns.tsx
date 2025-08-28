@@ -17,12 +17,12 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuIte
 
 export type Product = {
     id: number;
-    name: string; // Cambié de productName a name para coincidir con la API
+    productName: string; // Cambié de productName a name para coincidir con la API
     category: string;
-    price: number; // Cambié de unitPrice a price para coincidir con la API
+    unitPrice: number; // Cambié de unitPrice a price para coincidir con la API
     inStock: boolean;
     stock: number;
-    expiryDate: string; // Cambié de expDate a expiryDate para coincidir con la API
+    expDate: string; // Cambié de expDate a expiryDate para coincidir con la API
 }
 
 /* Helper function para crear headers con sorting

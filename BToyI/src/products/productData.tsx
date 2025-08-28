@@ -231,7 +231,7 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
 
 export const useProductActions = () => {
     const addProduct = async (product: Omit<Product, 'id'>) => {
-        const response = await fetch(`${API_URL}/product`, {
+        const response = await fetch(`${API_URL}/products`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(product)
