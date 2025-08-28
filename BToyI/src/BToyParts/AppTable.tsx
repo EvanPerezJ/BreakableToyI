@@ -4,6 +4,7 @@ import { useProducts } from '../products/productData';
 import { CategoryDD } from './Dropdowns/CategoryDD';
 import { AvailabilityDD } from './Dropdowns/AvailabilityDD';
 import { Button } from '@/components/ui/button';
+import ProductDialog from './ProductDialog/ProductDialog';
 import * as React from "react";
 
 export default function AppTable() {
@@ -82,12 +83,8 @@ export default function AppTable() {
                     >
                         Reset filters
                     </Button>
-                    <Button variant={'default'}
-                        onClick={clearFilters}
-                        disabled={loading}
-                    >
-                        Add product
-                    </Button>
+                    
+                    <ProductDialog/>
                 </div>
             </div>
 
