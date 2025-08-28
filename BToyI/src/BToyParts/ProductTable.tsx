@@ -3,7 +3,7 @@ import {Button} from '@/components/ui/button'
 import {Input} from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import {IoClose} from 'react-icons/io5'
-import { AvalilabilityDD } from './Dropdowns/AvailabilityDD'
+import { AvailabilityDD } from './Dropdowns/AvailabilityDD'
 import { CategoryDD } from './Dropdowns/CategoryDD'
 
 export function ProductTable(){
@@ -13,7 +13,7 @@ export function ProductTable(){
                 <div className="flex justify-between items-center">
                     <Input placeholder="Buscar..." className="max-w-sm h-10" />
                     <div className="flex items-center gap-4">
-                        <AvalilabilityDD/>
+                        <AvailabilityDD/>
                         <CategoryDD/>
                     </div>
                 </div>

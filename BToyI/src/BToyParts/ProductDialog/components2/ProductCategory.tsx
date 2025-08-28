@@ -28,11 +28,11 @@ export function ProductCategory(){
     if (!isClient) return null;
 
     return(
-        <div className='flex flex-col gap-2 mb-[8px]'>
+        <div className='mt-5 flex flex-col gap-2'>
             <Label className='text-slate-600'>{`Product's Category`}</Label>
 
             <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                <SelectTrigger className='h-[45px] shadow-none'>
+                <SelectTrigger className='h-11 shadow-none'>
                     <SelectValue placeholder="Select a category" />
                 </SelectTrigger>
                 <SelectContent>
