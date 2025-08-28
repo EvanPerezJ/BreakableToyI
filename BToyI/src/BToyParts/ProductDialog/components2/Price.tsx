@@ -2,14 +2,24 @@ import { Input } from "@/components/ui/input";
 import { Label } from '@/components/ui/label';
 import {NumericFormat} from 'react-number-format';
 
-export default function Price() {
+interface Props {
+  value: number;
+  onChange: (value: number) => void;
+}
+
+export default function Price({ value, onChange }: Props) {
   return (
     <div className="flex flex-col gap-2 pt-[6px]">
       <Label htmlFor="price" className="text-slate-600">
         Price
       </Label>
       <NumericFormat
-        value={0}
+        value={value}
+        onValueChange={ (values) => {
+          const floatValue = values.floatValue ?? 0;
+          onChange(floatValue)
+          }
+        }
         className="h-11"
         customInput={Input}
         thousandSeparator

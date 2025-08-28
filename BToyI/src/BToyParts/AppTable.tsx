@@ -22,10 +22,8 @@ export default function AppTable() {
         filterByAvailability,
         clearFilters,
         refetch,
-        // Estados para los filtros actuales
         selectedCategories,
         selectedAvailability,
-        // NUEVO: métricas
         metrics,
         refetchMetrics,
     } = useProducts({

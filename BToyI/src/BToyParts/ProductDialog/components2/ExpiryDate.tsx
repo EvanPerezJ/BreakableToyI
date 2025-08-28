@@ -1,7 +1,12 @@
 import { Input } from "@/components/ui/input";
 import { Label } from '@/components/ui/label';
 
-export default function ExpiryDate() {
+interface Props {
+  value: string;
+  onChange: (value: string) => void;
+}
+
+export default function ExpiryDate({ value, onChange }: Props) {
   return (
     <div className="flex flex-col gap-2 pt-[6px]">
       <Label htmlFor="expityDate" className="text-slate-600">
@@ -10,6 +15,8 @@ export default function ExpiryDate() {
       <Input
         type="date"
         id="expiryDate"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
         className="h-11 shadow-none"
         placeholder="Expiry Date..."
       />

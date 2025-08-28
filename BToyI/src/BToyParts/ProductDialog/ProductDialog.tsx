@@ -17,8 +17,24 @@ import Price from './components2/Price';
 import {ProductCategory} from './components2/ProductCategory';
 import Stock from './components2/Stock';
 import ExpiryDate from './components2/ExpiryDate';
+import { useProductActions } from '@/products/productData';
+import * as React from "react";
+
 
 export default function ProductDialog(){
+    const {
+            addProduct
+        } = useProductActions();
+
+    
+    const [name, setName] = React.useState('');
+    const [category, setCategory] = React.useState('');
+    const [price, setPrice] = React.useState(0);
+    const [stock, setStock] = React.useState(0);
+    const [expiryDate, setExpiryDate] = React.useState('');
+
+
+
     return(
         <Dialog>
             <DialogTrigger>
@@ -34,14 +50,14 @@ export default function ProductDialog(){
                 <Separator />
                 <div className='flex flex-col gap-2 mt-1'>
                     <div className='grid grid-cols-2 gap-7'>
-                        <ProductName/>
-                        <ProductCategory/>
+                        <ProductName value={name} onChange={setName}/>
+                        <ProductCategory value={category} onChange={setCategory}/>
                     </div>
 
                     <div className='mt-3 grid grid-cols-3 gap-7 max-lg:grid-cols-2 max-lg:gap-1 max-sm:grid-cols-1'>
-                        <Price/>
-                        <Stock/>
-                        <ExpiryDate/>
+                        <Price value={price} onChange={setPrice}/>
+                        <Stock value={stock} onChange={setStock}/>
+                        <ExpiryDate value={expiryDate} onChange={setExpiryDate} />
                     </div>
                 </div>
                 <DialogFooter className='mt-9 mb-4 flex items-center gap-4'>
@@ -50,7 +66,33 @@ export default function ProductDialog(){
                             Cancel
                         </Button>
                     </DialogClose>
-                    <Button className='h-11 px-11'>Add Product</Button>
+                    <Button
+                        className='h-11 px-11'
+                        onClick={async () => {
+                            const today = new Date().toISOString().split('T')[0];
+
+                            const product = {
+                            name,
+                            price,
+                            category,
+                            expiryDate,
+                            stock,
+                            inStock: stock > 0,
+                            createdDate: today,
+                            modifiedDate: today,
+                            };
+
+                            try {
+                            await addProduct(product);
+                            console.log("Producto agregado correctamente");
+                            } catch (error) {
+                            console.error("Error al agregar producto:", error);
+                            }
+                        }}
+                    >
+                        Add Product
+                    </Button>
+
                 </DialogFooter>
             </DialogContent>
         </Dialog>

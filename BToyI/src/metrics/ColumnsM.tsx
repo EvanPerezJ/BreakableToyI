@@ -20,14 +20,18 @@ export const columnsMetrics: ColumnDef<Metrics>[] = [
     header: 'Total Products in stock',
     cell: (info: CellContext<Metrics, unknown>) => info.getValue(),
   },
-  {
-    accessorKey: 'totalValue',
-    header: 'Total Value in stock',
-    cell: (info: CellContext<Metrics, unknown>) => `$${info.getValue()}`,
-  },
-  {
-    accessorKey: 'averageValue',
-    header: 'Average Value in stock',
-    cell: (info: CellContext<Metrics, unknown>) => `$${info.getValue()}`,
-  },
+  
+{
+  accessorKey: 'totalValue',
+  header: 'Total Value in stock',
+  cell: (info: CellContext<Metrics, unknown>) =>
+    `$${Number(info.getValue()).toFixed(2)}`,
+},
+{
+  accessorKey: 'averageValue',
+  header: 'Average Value in stock',
+  cell: (info: CellContext<Metrics, unknown>) =>
+    `$${Number(info.getValue()).toFixed(2)}`,
+},
+
 ];

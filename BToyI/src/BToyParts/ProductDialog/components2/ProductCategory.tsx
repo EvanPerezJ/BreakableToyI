@@ -8,30 +8,32 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 
-import { useEffect, useState } from 'react';
+//import { useEffect, useState } from 'react';
 
-export function ProductCategory(){
+interface Props {
+  value: string;
+  onChange: (value: string) => void;
+}
+
+export function ProductCategory({ value, onChange }: Props){
     const categories = [
         "Electronics",
         "Furniture",
         "Others",
     ];
 
-    const [isClient, setIsClient] = useState(false);
-    const [selectedCategory, setSelectedCategory] = useState("");
 
-    useEffect(()=>{
-        setIsClient(true);
-        setSelectedCategory(categories[0]);
-    },[]);
-
-    if (!isClient) return null;
 
     return(
         <div className='mt-5 flex flex-col gap-2'>
             <Label className='text-slate-600'>{`Product's Category`}</Label>
 
-            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+            <Select value={value} onValueChange={
+                (values) => {
+                const valueString = values ?? 0;
+                onChange(valueString)
+                }
+            }>
                 <SelectTrigger className='h-11 shadow-none'>
                     <SelectValue placeholder="Select a category" />
                 </SelectTrigger>

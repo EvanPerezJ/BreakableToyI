@@ -51,13 +51,16 @@ export function TableM<TData, TValue>({
   }
 
   return (
-    <Table>
+    <div className="rounded-md border flex">
+
+   
+    <Table className="">
       <TableHeader>
         {table.getHeaderGroups().map((headerGroup) => (
           <TableRow key={headerGroup.id}>
             {headerGroup.headers.map((header) => {
               return (
-                <TableHead key={header.id} className="bg-primary text-primary-foreground">
+                <TableHead key={header.id} className="bg-primary text-primary-foreground text-[18px] text-center">
                       {header.isPlaceholder ? null : flexRender(
                             header.column.columnDef.header,
                             header.getContext()
@@ -68,7 +71,7 @@ export function TableM<TData, TValue>({
           </TableRow>
         ))}
       </TableHeader>
-      <TableBody>
+      <TableBody className="text-center text-[18px]">
         {table.getRowModel().rows.map(row => (
           <TableRow key={row.id}>
             {row.getVisibleCells().map(cell => (
@@ -80,5 +83,6 @@ export function TableM<TData, TValue>({
         ))}
       </TableBody>
     </Table>
+     </div>
   );
 }

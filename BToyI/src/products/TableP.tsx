@@ -161,38 +161,3 @@ export function TableP<TData, TValue>({
         </div>
     )
 }
-
-//function FilterArea(){
-
-    //return(
-       {/* <div className="flex gap-3"> */}
-            {/* Availability 
-            <div className="border-dashed border rounded-sm p-1 flex gap-2 items-center px-2 text-sm">
-                <span className="text-gray-600">Availability</span>
-                <Separator orientation="vertical"/>
-                <div className="flex items-center gap-2">
-                    <Badge variant={"secondary"}>Item 1</Badge>
-                    <Badge variant={"secondary"}>Item 1</Badge>
-                </div>
-            </div> */}
-
-
-            {/* Category
-            <div className="border-dashed border rounded-sm p-1 flex gap-2 items-center px-2 text-sm">
-                <span className="text-gray-600">Category</span>
-                <Separator orientation="vertical"/>
-                <div className="flex items-center gap-2">
-                    <Badge variant={"secondary"}>Item 1</Badge>
-                    <Badge variant={"secondary"}>Item 1</Badge>
-                </div>
-            </div>
-
-            <Button variant={"ghost"} className="p-1 px-2">
-                <span>Reset</span>
-                <IoClose/>
-            </Button>
-
-        </div>  */}
-   // )
-
-//}

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { Product } from "./columns";
-import type { Metrics } from "../metrics/ColumnsM"; // Asegúrate de que la ruta sea correcta
+import type { Metrics } from "../metrics/ColumnsM"; 
 
 export interface ProductApiResponse {
     products: Product[];
@@ -22,7 +22,6 @@ export interface ProductsParams {
 // Configuración de la API
 const API_URL = "http://localhost:9090";
 
-// Función interna para hacer el fetch (reemplaza tu axios)
 const fetchProductsFromAPI = async (params: ProductsParams): Promise<ProductApiResponse> => {
     const queryParams = new URLSearchParams();
     
@@ -42,12 +41,12 @@ const fetchProductsFromAPI = async (params: ProductsParams): Promise<ProductApiR
     return await response.json();
 };
 
-// MANTÉN TU FUNCIÓN ORIGINAL PARA COMPATIBILIDAD
+
 export async function fetchProducts(page: number = 1, size: number = 10): Promise<ProductApiResponse> {
     return fetchProductsFromAPI({ page, size });
 }
 
-// NUEVO HOOK QUE INTERNAMENTE USA LA MISMA LÓGICA
+//HOOK
 export const useProducts = (initialParams: ProductsParams = {}) => {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(false);
@@ -69,7 +68,7 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
         ...initialParams
     });
 
-    // Estados para los filtros actuales (para pasarlos a los componentes)
+    // Estados para los filtros actuales
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const [selectedAvailability, setSelectedAvailability] = useState<string | null>(null);
 
@@ -82,7 +81,6 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
         setError(null);
         
         try {
-            // Usa la misma lógica interna de fetch
             const data = await fetchProductsFromAPI(params);
             
             setProducts(data.products);
@@ -109,7 +107,7 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
             if (!res.ok) throw new Error("Error fetching metrics");
             const data = await res.json();
             setMetrics(data);
-        } catch (err: unknown) { // <-- Cambiado de 'any' a 'unknown'
+        } catch (err: unknown) { 
             if (err instanceof Error) {
                 setMetricsError(err.message);
             } else {
@@ -123,7 +121,7 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
     // Funciones para controlar el hook
     const updateParams = (newParams: Partial<ProductsParams>) => {
         setParams((prev: ProductsParams) => ({ ...prev, ...newParams }));
-        console.log("Updated params:", { ...params, ...newParams }); // Debugging line
+        console.log("Updated params:", { ...params, ...newParams });
     };
 
     const changePage = (newPage: number) => {
@@ -143,7 +141,7 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
             'expiryDate': 'expiryDate'
         };
 
-        console.log("updateSorting called with:", columnId, direction); // Debugging line
+        console.log("updateSorting called with:", columnId, direction); 
 
         const apiColumnName = columnMapping[columnId];
         if (apiColumnName) {
@@ -164,7 +162,7 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
     };
 
     const filterByAvailability = (availability: string | null) => {
-        // Mapear los valores del frontend a los valores que espera la API
+        //Map for the API params expected
         let apiAvailability: string;
         
         if (availability === null || availability === 'All') {
@@ -174,7 +172,7 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
             apiAvailability = 'InStock';
             setSelectedAvailability('InStock');
         } else if (availability === 'OutofStock') {
-            apiAvailability = 'OutOfStock'; // La API espera 'OutOfStock' con 'Of' mayúscula
+            apiAvailability = 'OutOfStock'; 
             setSelectedAvailability('OutofStock');
         } else {
             apiAvailability = 'All';
@@ -199,12 +197,12 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
         });
     };
 
-    // Effect para fetch cuando cambien los parámetros
+    // fetch effect when params are modified
     useEffect(() => {
         fetchData();
     }, [params.page, params.size, params.sortBy, params.sortOrder, params.category, params.availability]);
 
-    // Efecto para cargar métricas automáticamente cuando cambian los productos
+    // Effect to load metrics automated
     useEffect(() => {
         fetchMetrics();
     }, [products]);
@@ -222,21 +220,18 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
         filterByAvailability,
         clearFilters,
         refetch: fetchData,
-        // Exponer los estados de filtros para los componentes
         selectedCategories,
         selectedAvailability,
-        // NUEVO: métricas
         metrics,
         metricsLoading,
         metricsError,
-        refetchMetrics: fetchMetrics, // <-- esto funciona manualmente
+        refetchMetrics: fetchMetrics, 
     };
 };
 
-// FUNCIONES ADICIONALES DE UTILIDAD (puedes expandir más tarde)
 export const useProductActions = () => {
     const addProduct = async (product: Omit<Product, 'id'>) => {
-        const response = await fetch(`${API_URL}/products`, {
+        const response = await fetch(`${API_URL}/product`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(product)
