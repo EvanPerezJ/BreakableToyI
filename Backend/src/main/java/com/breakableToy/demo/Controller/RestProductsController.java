@@ -27,35 +27,35 @@ public class RestProductsController {
     private static final List<Products> productList = new ArrayList<>();
 
     static {
-        productList.add(new Products(1L, "Product A", 10.0f, "Category 1", "2024-12-31", 100,true,"2023-10-01","2023-10-01"));
-        productList.add(new Products(2L, "Product B", 20.0f, "Category 2", "2025-01-15", 200,true,"2023-10-01","2023-10-01"));
-        productList.add(new Products(3L, "Product C", 30.0f, "Category 3", "2025-02-28", 300,false,"2023-10-01","2023-10-01"));
-        productList.add(new Products(4L, "Product D", 40.0f, "Category 4", "2025-03-31", 400,true,"2023-10-01","2023-10-01"));
-        productList.add(new Products(5L, "Product E", 50.0f, "Category 5", "2025-04-30", 500,false,"2023-10-01","2023-10-01"));
-        productList.add(new Products(6L, "Product F", 60.0f, "Category 6", "2025-05-31", 600,true,"2023-10-01","2023-10-01"));
-        productList.add(new Products(7L, "Product G", 70.0f, "Category 7", "2025-06-30", 700,false,"2023-10-01","2023-10-01"));
-        productList.add(new Products(8L, "Product H", 80.0f, "Category 8", "2025-07-31", 800,true,"2023-10-01","2023-10-01"));
-        productList.add(new Products(9L, "Product I", 90.0f, "Category 9", "2025-08-30", 900,false,"2023-10-01","2023-10-01"));
-        productList.add(new Products(10L, "Product J", 100.0f, "Category 10", "2025-09-30", 1000,true,"2023-10-01","2023-10-01"));
-        productList.add(new Products(11L, "Product K", 110.0f, "Category 11", "2025-10-31", 1100,true,"2023-10-01","2023-10-01"));
-        productList.add(new Products(12L, "Product L", 120.0f, "Category 12", "2025-11-30", 1200,false,"2023-10-01","2023-10-01"));
-        productList.add(new Products(13L, "Product M", 130.0f, "Category 13", "2025-12-31", 1300,true,"2023-10-01","2023-10-01"));
-        productList.add(new Products(14L, "Product N", 140.0f, "Category 14", "2026-01-31", 1400,true,"2023-10-01","2023-10-01"));
-        productList.add(new Products(15L, "Product O", 150.0f, "Category 15", "2026-02-28", 1500,false,"2023-10-01","2023-10-01"));
-        productList.add(new Products(16L, "Product P", 160.0f, "Category 16", "2026-03-31", 1600,true,"2023-10-01","2023-10-01"));
-        productList.add(new Products(17L, "Product Q", 170.0f, "Category 17", "2026-04-30", 1700,false,"2023-10-01","2023-10-01"));
-        productList.add(new Products(18L, "Product R", 180.0f, "Category 18", "2026-05-31", 1800,true,"2023-10-01","2023-10-01"));
-        productList.add(new Products(19L, "Product S", 190.0f, "Category 19", "2026-06-30", 1900,false,"2023-10-01","2023-10-01"));
-        productList.add(new Products(20L, "Product T", 200.0f, "Category 20", "2026-07-31", 2000,true,"2023-10-01","2023-10-01"));
-        productList.add(new Products(21L, "Product U", 210.0f, "Category 21", "2026-08-30", 2100,false,"2023-10-01","2023-10-01"));
-        productList.add(new Products(22L, "Product V", 220.0f, "Category 22", "2026-09-30", 2200,true,"2023-10-01","2023-10-01"));
-        productList.add(new Products(23L, "Product W", 230.0f, "Category 23", "2026-10-31", 2300,false,"2023-10-01","2023-10-01"));
-        productList.add(new Products(24L, "Product X", 240.0f, "Category 24", "2026-11-30", 2400,true,"2023-10-01","2023-10-01"));
-        productList.add(new Products(25L, "Product Y", 250.0f, "Category 25", "2026-12-31", 2500,false,"2023-10-01","2023-10-01"));
-        productList.add(new Products(26L, "Product Z", 260.0f, "Category 26", "2027-01-31", 2600,true,"2023-10-01","2023-10-01"));
-        productList.add(new Products(27L, "Product AA", 270.0f, "Category 27", "2027-02-28", 2700,false,"2023-10-01","2023-10-01"));
-        productList.add(new Products(28L, "Product AB", 280.0f, "Category 28", "2027-03-31", 2800,true,"2023-10-01","2023-10-01"));
-        productList.add(new Products(29L, "Product AC", 290.0f, "Category 29", "2027-04-30", 2900,false,"2023-10-01","2023-10-01"));
+        productList.add(new Products(1L, "Smartphone", 12.03f, "Electronics", "2025-12-31", 28,true,"2023-10-01","2023-10-01"));
+        productList.add(new Products(2L, "Laptop", 90.22f, "Electronics", "2025-12-31", 9,true,"2023-10-01","2023-10-01"));
+        productList.add(new Products(3L, "Tablet", 99.11f, "Electronics", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
+        productList.add(new Products(4L, "Camera", 46.94f, "Electronics", "2025-12-31", 26,true,"2023-10-01","2023-10-01"));
+        productList.add(new Products(5L, "Headphones", 44.94f, "Electronics", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
+
+        productList.add(new Products(6L, "Novel", 74.49f, "Books", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
+        productList.add(new Products(7L, "Biography", 98.26f, "Books", "2025-12-31", 6,true,"2023-10-01","2023-10-01"));
+        productList.add(new Products(8L, "Textbook", 79.57f, "Books", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
+        productList.add(new Products(9L, "Comics", 43.83f, "Books", "2025-12-31", 15,true,"2023-10-01","2023-10-01"));
+        productList.add(new Products(10L, "Manual", 26.38f, "Books", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
+
+        productList.add(new Products(11L, "T-Shirt", 46.74f, "Clothing", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
+        productList.add(new Products(12L, "Jeans", 64.75f, "Clothing", "2025-12-31", 23,true,"2023-10-01","2023-10-01"));
+        productList.add(new Products(13L, "Jacket", 48.97f, "Clothing", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
+        productList.add(new Products(14L, "Dress", 20.58f, "Clothing", "2025-12-31", 27,true,"2023-10-01","2023-10-01"));
+        productList.add(new Products(15L, "Sweater", 96.35f, "Clothing", "2025-12-31", 12,true,"2023-10-01","2023-10-01"));
+
+        productList.add(new Products(16L, "Puzzle", 25.95f, "Toys", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
+        productList.add(new Products(17L, "Action Figure", 57.58f, "Toys", "2025-12-31", 1,true,"2023-10-01","2023-10-01"));
+        productList.add(new Products(18L, "Board Game", 83.57f, "Toys", "2025-12-31", 8,true,"2023-10-01","2023-10-01"));
+        productList.add(new Products(19L, "Doll", 5.58f, "Toys", "2025-12-31", 24,true,"2023-10-01","2023-10-01"));
+        productList.add(new Products(20L, "Lego", 54.81f, "Toys", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
+
+        productList.add(new Products(21L, "Apple", 88.44f, "Groceries", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
+        productList.add(new Products(22L, "Bread", 57.24f, "Groceries", "2025-12-31", 19,true,"2023-10-01","2023-10-01"));
+        productList.add(new Products(23L, "Milk", 26.06f, "Groceries", "2025-12-31", 8,true,"2023-10-01","2023-10-01"));
+        productList.add(new Products(24L, "Cheese", 58.28f, "Groceries", "2025-12-31", 19,true,"2023-10-01","2023-10-01"));
+        productList.add(new Products(25L, "Juice", 21.39f, "Groceries", "2025-12-31", 1,true,"2023-10-01","2023-10-01"));
     }
 
     @GetMapping("/")

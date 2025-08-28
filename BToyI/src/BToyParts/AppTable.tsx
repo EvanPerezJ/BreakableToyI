@@ -6,7 +6,8 @@ import { AvailabilityDD } from './Dropdowns/AvailabilityDD';
 import { Button } from '@/components/ui/button';
 import ProductDialog from './ProductDialog/ProductDialog';
 import Section from './Section';
-import TableM from '../metrics/TableM';
+import { columnsMetrics } from '@/metrics/ColumnsM';
+import {TableM} from '../metrics/TableM';
 import * as React from "react";
 
 export default function AppTable() {
@@ -26,8 +27,6 @@ export default function AppTable() {
         selectedAvailability,
         // NUEVO: métricas
         metrics,
-        metricsLoading,
-        metricsError,
         refetchMetrics,
     } = useProducts({
         page: 1,
@@ -113,11 +112,14 @@ export default function AppTable() {
             />
 
             <Section />
-            <TableM
-                data={metrics}
-                loading={metricsLoading}
-                error={metricsError}
-            />
+            
+                <TableM
+                    columns={columnsMetrics}
+                    data={metrics}
+                    error={error}
+                    refetch={refetchMetrics}
+                />
+
         </div>
     );
 }

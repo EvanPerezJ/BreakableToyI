@@ -1,57 +1,84 @@
-import { columnsMetrics } from "./ColumnsM";
-import { useReactTable, getCoreRowModel, flexRender } from "@tanstack/react-table";
-import type { Metrics } from "./ColumnsM";
+import {
+  useReactTable,
+  getCoreRowModel,
+  flexRender
+} from "@tanstack/react-table";
 
-interface TableMProps {
-  data: Metrics[];
-  loading: boolean;
+import type { ColumnDef } from "@tanstack/react-table";
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
+interface DataTableProps<TData, TValue> {
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
   error: string | null;
-  refetch?: () => void; // <-- opcional
+  refetch?: () => void;
 }
 
-export default function TableM({ data, loading, error, refetch }: TableMProps) {
+export function TableM<TData, TValue>({
+  columns,
+  data,
+  error,
+  refetch,
+}: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
-    columns: columnsMetrics,
+    columns,
     getCoreRowModel: getCoreRowModel(),
   });
 
-  if (loading) return <div>Loading metrics...</div>;
-  if (error) return (
-    <div>
-      Error: {error}
-      {refetch && (
-        <button onClick={refetch} className="ml-2 px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">
-          Reintentar
-        </button>
-      )}
-    </div>
-  );
+  if (error) {
+    return (
+      <div>
+        Error: {error}
+        {refetch && (
+          <button
+            onClick={refetch}
+            className="ml-2 px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            Reintentar
+          </button>
+        )}
+      </div>
+    );
+  }
 
   return (
-    <table>
-      <thead>
-        {table.getHeaderGroups().map(headerGroup => (
-          <tr key={headerGroup.id}>
-            {headerGroup.headers.map(header => (
-              <th key={header.id}>
-                {flexRender(header.column.columnDef.header, header.getContext())}
-              </th>
-            ))}
-          </tr>
+    <Table>
+      <TableHeader>
+        {table.getHeaderGroups().map((headerGroup) => (
+          <TableRow key={headerGroup.id}>
+            {headerGroup.headers.map((header) => {
+              return (
+                <TableHead key={header.id} className="bg-primary text-primary-foreground">
+                      {header.isPlaceholder ? null : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                      )}
+                </TableHead>
+              )
+            })}
+          </TableRow>
         ))}
-      </thead>
-      <tbody>
+      </TableHeader>
+      <TableBody>
         {table.getRowModel().rows.map(row => (
-          <tr key={row.id}>
+          <TableRow key={row.id}>
             {row.getVisibleCells().map(cell => (
-              <td key={cell.id}>
+              <TableCell key={cell.id}>
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </td>
+              </TableCell>
             ))}
-          </tr>
+          </TableRow>
         ))}
-      </tbody>
-    </table>
+      </TableBody>
+    </Table>
   );
 }
