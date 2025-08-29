@@ -33,11 +33,15 @@ export default function ProductDialog({
   const [category, setCategory] = React.useState('');
   const [unitPrice, setPrice] = React.useState(0);
   const [stock, setStock] = React.useState(0);
-  const [expDate, setExpiryDate] = React.useState('');
+  const [expDate, setExpiryDate] = React.useState<string | null>(null);
   const [openDialog, setOpenDialog] = React.useState(false);
 
   const handleAddProduct = async () => {
     const today = new Date().toISOString().split('T')[0];
+
+    if(expDate == ''){
+      setExpiryDate(null);
+    };
 
     const product = {
       productName,

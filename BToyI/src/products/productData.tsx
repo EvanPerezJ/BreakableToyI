@@ -183,6 +183,7 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
         setSelectedAvailability(null);
         updateParams({
             sortBy: '',
+            search:'',
             sortOrder: 'asc',
             category: '',
             availability: 'All',

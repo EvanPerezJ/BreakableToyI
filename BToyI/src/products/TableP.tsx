@@ -97,9 +97,7 @@ export function TableP<TData, TValue>({
                                 variant="ghost"
                                 size="sm"
                                 className="p-0 h-auto text-muted-foreground"
-                                onClick={() => updateSearch?.('')}
                             >
-                                <GrFormPrevious className="text-lg" />
                             </Button>
                             </div>
                         </div>

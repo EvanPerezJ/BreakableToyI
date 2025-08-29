@@ -13,18 +13,18 @@ export function CheckboxManager({
 {
 
   const { setProductOutOfStock, setProductInStock } = useProductActions();
-  const [checked, setChecked] = useState(row.original.inStock);
+  const [checked, setChecked] = useState(!row.original.inStock);
 
   const handleToggle = async () => {
     const confirmMessage = checked
-      ? 'Are you sure you want to mark this product as OUT OF STOCK?'
-      : 'Are you sure you want to mark this product as IN STOCK?';
+      ? 'Are you sure you want to mark this product as IN STOCK?'
+      : 'Are you sure you want to mark this product as OUT OF STOCK?';
 
     const confirmed = window.confirm(confirmMessage);
     if (!confirmed) return;
 
     try {
-      if (checked) {
+      if (!checked) {
         await setProductOutOfStock(row.original.id);
         console.log('Product marked as out of stock');
       } else {

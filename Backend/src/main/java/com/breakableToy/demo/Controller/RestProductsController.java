@@ -155,6 +155,9 @@ public List<Map<String, Object>> getMetricsByCategory() {
             filteredList.removeIf(p -> p.getProductName() == null || !p.getProductName().toLowerCase().contains(searchLower));
         }
 
+        
+
+
         // 2. Ordenamiento
         if (sortBy != null && !sortBy.isEmpty()) {
             Comparator<Products> comparator = null;

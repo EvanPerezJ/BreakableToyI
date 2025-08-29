@@ -5,6 +5,7 @@ import { IoClose } from 'react-icons/io5';
 import ProductDD from '../BToyParts/Dropdowns/ProductDD';
 import SortingDD from '../BToyParts/Dropdowns/SortingDD';
 import { CheckboxManager } from './CheckboxManager';
+import {Badge} from '@/components/ui/badge'
 //import { useProducts } from '../../products/productData';
 /*
 import { IoMdArrowDown } from 'react-icons/io';
@@ -18,12 +19,12 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuIte
 
 export type Product = {
     id: number;
-    productName: string; // Cambié de productName a name para coincidir con la API
+    productName: string; 
     category: string;
-    unitPrice: number; // Cambié de unitPrice a price para coincidir con la API
+    unitPrice: number; 
     inStock: boolean;
     stock: number;
-    expDate: string; // Cambié de expDate a expiryDate para coincidir con la API
+    expDate: string | null;
 }
 
 /* Helper function para crear headers con sorting
@@ -81,7 +82,15 @@ export const columns = (updateSorting: (col: string, dir: 'asc' | 'desc') => voi
       header: ({ column }) => (
         <SortingDD title="Name" columnId="name" column={column} updateSorting={updateSorting}/>
       ),
-      cell: info => info.getValue(),
+      cell: info => {
+          const name = info.getValue() as string;
+          const stock = info.row.original.stock;
+          return (
+            <span style={{ textDecoration: stock === 0 ? 'line-through' : 'none' }}>
+              {name}
+            </span>
+          );
+        },
     },
     {
       accessorKey: 'category',
@@ -101,18 +110,49 @@ export const columns = (updateSorting: (col: string, dir: 'asc' | 'desc') => voi
       accessorKey: 'stock',
       header: ({ column }) => (
         <SortingDD title="Stock" columnId="stock" column={column} updateSorting={updateSorting}/>
-      ),
-      cell: info => Number(info.getValue()).toLocaleString(),
+      ),  
+      cell: info => {
+          const stock = info.getValue() as number;
+          let variant: "success" | "destructive" | "secondary"  = "success";
+
+          if (stock < 5) variant = "destructive"; // rojo
+          else if (stock >= 5 && stock <= 10) variant = "secondary"; // naranja
+
+          return (
+            <Badge variant={variant}>
+              {stock.toLocaleString()}
+            </Badge>
+          );
+        },
+
     },
     {
       accessorKey: 'expiryDate',
       header: ({ column }) => (
         <SortingDD title="Expiry Date" columnId="expiryDate" column={column} updateSorting={updateSorting}/>
       ),
+      
       cell: info => {
-        const date = new Date(info.getValue() as string);
-        return date.toISOString().split('T')[0]; // muestra YYYY-MM-DD sin desfase
-      },
+          const value = info.getValue() as string | null;
+          if (!value) return <span>NULL</span>;
+          let variant: "success" | "destructive" | "secondary"  = "success";
+
+          const date = new Date(value);
+          const today = new Date();
+          const diffDays = Math.ceil((date.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+
+          if (diffDays < 7) variant = 'destructive'; // rojo
+          else if (diffDays >= 7 && diffDays <= 14) variant = 'secondary'; // amarillo
+          else if (diffDays > 14) variant = 'success'; // verde
+
+          return (
+            <Badge variant={variant}>
+              {date.toISOString().split('T')[0]}
+            </Badge>
+          );
+        },
+
+
     },
     {
       accessorKey: 'inStock',
