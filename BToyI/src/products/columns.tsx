@@ -63,14 +63,7 @@ export const columns = (updateSorting: (col: string, dir: 'asc' | 'desc') => voi
 
     {
       id: 'select',
-      header: ({ table }) => (
-        <input
-          type="checkbox"
-          checked={table.getIsAllPageRowsSelected()}
-          onChange={table.getToggleAllPageRowsSelectedHandler()}
-          aria-label="Select all rows"
-        />
-      ),
+      header: '',
       cell: ({ row }) => (
         <input
           type="checkbox"
@@ -123,7 +116,7 @@ export const columns = (updateSorting: (col: string, dir: 'asc' | 'desc') => voi
       ),
       cell: info => {
         const date = new Date(info.getValue() as string);
-        return date.toLocaleDateString();
+        return date.toISOString().split('T')[0]; // muestra YYYY-MM-DD sin desfase
       },
     },
     {

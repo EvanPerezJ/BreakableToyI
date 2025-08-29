@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,35 +29,35 @@ public class RestProductsController {
     private static final List<Products> productList = new ArrayList<>();
 
     static {
-        productList.add(new Products(1L, "Smartphone", 12.03f, "Electronics", "2025-12-31", 28,true,"2023-10-01","2023-10-01"));
-        productList.add(new Products(2L, "Laptop", 90.22f, "Electronics", "2025-12-31", 9,true,"2023-10-01","2023-10-01"));
-        productList.add(new Products(3L, "Tablet", 99.11f, "Electronics", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
-        productList.add(new Products(4L, "Camera", 46.94f, "Electronics", "2025-12-31", 26,true,"2023-10-01","2023-10-01"));
-        productList.add(new Products(5L, "Headphones", 44.94f, "Electronics", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
+        productList.add(new Products(1L, "Smartphone", 12f, "Electronics", "2025-12-31", 28,true,"2023-10-01","2023-10-01"));
+productList.add(new Products(2L, "Laptop", 90f, "Electronics", "2025-12-03", 9,true,"2023-10-01","2023-10-01"));
+productList.add(new Products(3L, "Tablet", 99f, "Electronics", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
+productList.add(new Products(4L, "Camera", 46f, "Electronics", "2028-11-31", 26,true,"2023-10-01","2023-10-01"));
+productList.add(new Products(5L, "Headphones", 44f, "Electronics", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
 
-        productList.add(new Products(6L, "Novel", 74.49f, "Books", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
-        productList.add(new Products(7L, "Biography", 98.26f, "Books", "2025-12-31", 6,true,"2023-10-01","2023-10-01"));
-        productList.add(new Products(8L, "Textbook", 79.57f, "Books", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
-        productList.add(new Products(9L, "Comics", 43.83f, "Books", "2025-12-31", 15,true,"2023-10-01","2023-10-01"));
-        productList.add(new Products(10L, "Manual", 26.38f, "Books", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
+productList.add(new Products(6L, "Novel", 74f, "Books", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
+productList.add(new Products(7L, "Biography", 98f, "Books", "2026-12-31", 6,true,"2023-10-01","2023-10-01"));
+productList.add(new Products(8L, "Textbook", 79f, "Books", "2025-09-31", 0,false,"2023-10-01","2023-10-01"));
+productList.add(new Products(9L, "Comics", 43f, "Books", "2024-01-31", 15,true,"2023-10-01","2023-10-01"));
+productList.add(new Products(10L, "Manual", 26f, "Books", "2026-12-31", 0,false,"2023-10-01","2023-10-01"));
 
-        productList.add(new Products(11L, "T-Shirt", 46.74f, "Clothing", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
-        productList.add(new Products(12L, "Jeans", 64.75f, "Clothing", "2025-12-31", 23,true,"2023-10-01","2023-10-01"));
-        productList.add(new Products(13L, "Jacket", 48.97f, "Clothing", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
-        productList.add(new Products(14L, "Dress", 20.58f, "Clothing", "2025-12-31", 27,true,"2023-10-01","2023-10-01"));
-        productList.add(new Products(15L, "Sweater", 96.35f, "Clothing", "2025-12-31", 12,true,"2023-10-01","2023-10-01"));
+productList.add(new Products(11L, "T-Shirt", 46f, "Clothing", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
+productList.add(new Products(12L, "Jeans", 64f, "Clothing", "2025-12-31", 23,true,"2023-10-01","2023-10-01"));
+productList.add(new Products(13L, "Jacket", 48f, "Clothing", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
+productList.add(new Products(14L, "Dress", 20f, "Clothing", "2025-12-31", 27,true,"2023-10-01","2023-10-01"));
+productList.add(new Products(15L, "Sweater", 96f, "Clothing", "2025-12-31", 12,true,"2023-10-01","2023-10-01"));
 
-        productList.add(new Products(16L, "Puzzle", 25.95f, "Toys", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
-        productList.add(new Products(17L, "Action Figure", 57.58f, "Toys", "2025-12-31", 1,true,"2023-10-01","2023-10-01"));
-        productList.add(new Products(18L, "Board Game", 83.57f, "Toys", "2025-12-31", 8,true,"2023-10-01","2023-10-01"));
-        productList.add(new Products(19L, "Doll", 5.58f, "Toys", "2025-12-31", 24,true,"2023-10-01","2023-10-01"));
-        productList.add(new Products(20L, "Lego", 54.81f, "Toys", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
+productList.add(new Products(16L, "Puzzle", 25f, "Toys", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
+productList.add(new Products(17L, "Action Figure", 57f, "Toys", "2025-12-31", 1,true,"2023-10-01","2023-10-01"));
+productList.add(new Products(18L, "Board Game", 83f, "Toys", "2025-12-31", 8,true,"2023-10-01","2023-10-01"));
+productList.add(new Products(19L, "Doll", 5f, "Toys", "2025-12-31", 24,true,"2023-10-01","2023-10-01"));
+productList.add(new Products(20L, "Lego", 54f, "Toys", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
 
-        productList.add(new Products(21L, "Apple", 88.44f, "Groceries", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
-        productList.add(new Products(22L, "Bread", 57.24f, "Groceries", "2025-12-31", 19,true,"2023-10-01","2023-10-01"));
-        productList.add(new Products(23L, "Milk", 26.06f, "Groceries", "2025-12-31", 8,true,"2023-10-01","2023-10-01"));
-        productList.add(new Products(24L, "Cheese", 58.28f, "Groceries", "2025-12-31", 19,true,"2023-10-01","2023-10-01"));
-        productList.add(new Products(25L, "Juice", 21.39f, "Groceries", "2025-12-31", 1,true,"2023-10-01","2023-10-01"));
+productList.add(new Products(21L, "Apple", 88f, "Groceries", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
+productList.add(new Products(22L, "Bread", 57f, "Groceries", "2025-12-31", 19,true,"2023-10-01","2023-10-01"));
+productList.add(new Products(23L, "Milk", 26f, "Groceries", "2025-12-31", 8,true,"2023-10-01","2023-10-01"));
+productList.add(new Products(24L, "Cheese", 58f, "Groceries", "2025-12-31", 19,true,"2023-10-01","2023-10-01"));
+productList.add(new Products(25L, "Juice", 21f, "Groceries", "2025-12-31", 1,true,"2023-10-01","2023-10-01"));
     }
 
     @GetMapping("/")
@@ -204,6 +206,19 @@ public List<Map<String, Object>> getMetricsByCategory() {
         return response;
     }
 
+
+    @GetMapping("/products/{id}")
+    public ResponseEntity<Map<String, Object>> getProductById(@PathVariable Long id) {
+        for (Products product : productList) {
+            if (product.getId().equals(id)) {
+                return ResponseEntity.ok(productToMap2(product));
+            }
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                            .body(Map.of("error", "Product not found"));
+    }
+
+
     @PostMapping("/products")
     public String addProduct(@RequestBody Products product) {
         Long id = productList.stream().mapToLong(Products::getId).max().orElse(0) + 1;
@@ -217,6 +232,7 @@ public List<Map<String, Object>> getMetricsByCategory() {
         for (Products product : productList) {
             if (product.getId().equals(id)) {
                 product.setInStock(false);
+                product.setStock(0);
                 return "Product updated successfully";
             }
         }
@@ -253,6 +269,7 @@ public List<Map<String, Object>> getMetricsByCategory() {
         for (Products product : productList) {
             if (product.getId().equals(id)) {
                 product.setInStock(true);
+                product.setStock(10);
                 return "Product updated successfully";
             }
         }
@@ -274,6 +291,18 @@ public List<Map<String, Object>> getMetricsByCategory() {
         map.put("inStock", product.isInStock());
         map.put("stock", product.getStock());
         map.put("expiryDate", product.getExpDate());
+        return map;
+    }
+
+    private Map<String, Object> productToMap2(Products product) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", product.getId());
+        map.put("productName", product.getProductName());
+        map.put("category", product.getCategory());
+        map.put("unitPrice", product.getUnitPrice());
+        map.put("inStock", product.isInStock());
+        map.put("stock", product.getStock());
+        map.put("expDate", product.getExpDate());
         return map;
     }
 }

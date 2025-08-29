@@ -230,75 +230,74 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
 };
 
 export const useProductActions = () => {
-    const addProduct = async (product: Omit<Product, 'id'>) => {
-        const response = await fetch(`${API_URL}/products`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(product)
-        });
-        
-        if (!response.ok) {
-            throw new Error('Failed to add product');
-        }
-        
-        return await response.text();
-    };
+  const addProduct = async (product: Omit<Product, 'id'>) => {
+    const response = await fetch(`${API_URL}/products`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(product)
+    });
+    if (!response.ok) {
+      throw new Error('Failed to add product');
+    }
+    return await response.text();
+  };
 
-    const updateProduct = async (id: number, product: Partial<Product>) => {
-        const response = await fetch(`${API_URL}/products/${id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(product)
-        });
-        
-        if (!response.ok) {
-            throw new Error('Failed to update product');
-        }
-        
-        return await response.text();
-    };
+  const updateProduct = async (id: number, product: Partial<Product>) => {
+    const response = await fetch(`${API_URL}/products/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(product)
+    });
+    if (!response.ok) {
+      throw new Error('Failed to update product');
+    }
+    return await response.text();
+  };
 
-    const deleteProduct = async (id: number) => {
-        const response = await fetch(`${API_URL}/products/${id}`, {
-            method: 'DELETE'
-        });
-        
-        if (!response.ok) {
-            throw new Error('Failed to delete product');
-        }
-        
-        return await response.text();
-    };
+  const deleteProduct = async (id: number) => {
+    const response = await fetch(`${API_URL}/products/${id}`, {
+      method: 'DELETE'
+    });
+    if (!response.ok) {
+      throw new Error('Failed to delete product');
+    }
+    return await response.text();
+  };
 
-    const setProductOutOfStock = async (id: number) => {
-        const response = await fetch(`${API_URL}/products/${id}/outofstock`, {
-            method: 'POST'
-        });
-        
-        if (!response.ok) {
-            throw new Error('Failed to set product out of stock');
-        }
-        
-        return await response.text();
-    };
+  const setProductOutOfStock = async (id: number) => {
+    const response = await fetch(`${API_URL}/products/${id}/outofstock`, {
+      method: 'POST'
+    });
+    if (!response.ok) {
+      throw new Error('Failed to set product out of stock');
+    }
+    return await response.text();
+  };
 
-    const setProductInStock = async (id: number) => {
-        const response = await fetch(`${API_URL}/products/${id}/instock`, {
-            method: 'PUT'
-        });
-        
-        if (!response.ok) {
-            throw new Error('Failed to set product in stock');
-        }
-        
-        return await response.text();
-    };
+  const setProductInStock = async (id: number) => {
+    const response = await fetch(`${API_URL}/products/${id}/instock`, {
+      method: 'PUT'
+    });
+    if (!response.ok) {
+      throw new Error('Failed to set product in stock');
+    }
+    return await response.text();
+  };
 
-    return {
-        addProduct,
-        updateProduct,
-        deleteProduct,
-        setProductOutOfStock,
-        setProductInStock
-    };
+  const getProductById = async (id: number): Promise<Product> => {
+    const response = await fetch(`${API_URL}/products/${id}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch product');
+    }
+    return await response.json();
+  };
+
+  return {
+    addProduct,
+    updateProduct,
+    deleteProduct,
+    setProductOutOfStock,
+    setProductInStock,
+    getProductById
+  };
 };

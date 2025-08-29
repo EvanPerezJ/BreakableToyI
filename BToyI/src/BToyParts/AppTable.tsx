@@ -64,7 +64,7 @@ export default function AppTable() {
             {/* Controles de filtros */}
             <div className="flex items-center justify-between">
                 <div className="text-sm text-gray-500">
-                    Mostrando {products.length} de {pagination.totalProducts} productos
+                    Showing {products.length} from {pagination.totalProducts} products founded.
                 </div>
                 
                 <div className="flex items-center space-x-2">

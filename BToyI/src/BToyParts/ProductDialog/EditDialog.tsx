@@ -10,6 +10,13 @@ import {
     DialogClose,
 } from '@/components/ui/dialog';
 
+
+import { FaRegEdit } from "react-icons/fa";
+
+
+import { DropdownMenuItem} from "@/components/ui/dropdown-menu";
+
+
 import { Separator } from '@/components/ui/separator';
 
 import ProductName from './components2/ProductName';
@@ -22,7 +29,7 @@ import { useProductActions } from '@/products/productData';
 import * as React from "react";
 
 
-export default function ProductDialog(){
+export default function EditDialog(){
     const {
             addProduct
     } = useProductActions();
@@ -42,7 +49,12 @@ export default function ProductDialog(){
     return(
         <Dialog>
             <DialogTrigger>
-                <Button className='h-10'>Add Product</Button>
+                
+                <DropdownMenuItem className="flex items-center gap-1 p-[10px]">
+                    <FaRegEdit />
+                    <span>Edit</span>
+                </DropdownMenuItem>
+
             </DialogTrigger>
             <DialogContent className='p-7 px-8'>
                 <DialogHeader>
