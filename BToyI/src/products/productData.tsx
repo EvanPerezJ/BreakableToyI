@@ -191,13 +191,13 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
         });
     };
 
-    // Efecto para cargar productos cuando cambian los parámetros
+    // Effect to load new params
     useEffect(() => {
         console.log("Params changed:", params);
         fetchData();
     }, [params]);
 
-    // Efecto para cargar métricas una sola vez
+    // Effect to load metrics jeje
     useEffect(() => {
     fetchMetrics();
     }, [products]);

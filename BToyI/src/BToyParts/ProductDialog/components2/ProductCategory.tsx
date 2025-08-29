@@ -11,7 +11,7 @@ export function ProductCategory({ value, onChange }: Props) {
   const categories = ["Electronics", "Furniture", "Toys", "Groceries", "Clothing", "Books"];
   const [customCategory, setCustomCategory] = useState("");
 
-  // Si el valor cambia externamente y no es una categoría conocida, lo tratamos como personalizado
+  
   useEffect(() => {
     if (!categories.includes(value)) {
       setCustomCategory(value);
@@ -27,7 +27,7 @@ export function ProductCategory({ value, onChange }: Props) {
         onChange={(e) => {
           const selected = e.target.value;
           if (selected === "custom") {
-            onChange(customCategory); // mantiene el valor actual del input
+            onChange(customCategory); 
           } else {
             onChange(selected);
           }
@@ -50,7 +50,7 @@ export function ProductCategory({ value, onChange }: Props) {
           onChange={(e) => {
             const newValue = e.target.value;
             setCustomCategory(newValue);
-            onChange(newValue); // actualiza el valor externo
+            onChange(newValue);
           }}
           className="h-11 mt-2"
           placeholder="Write custom category..."

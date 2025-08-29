@@ -25,7 +25,7 @@ export default function Stock({ value, onChange }: Props) {
         customInput={Input}
         thousandSeparator
         allowNegative={false}
-        decimalScale={0} // 👈 fuerza que sea entero
+        decimalScale={0}
         placeholder="Items in stock..."
       />
       {isInvalid && (

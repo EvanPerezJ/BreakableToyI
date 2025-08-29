@@ -17,7 +17,7 @@ export default function Price({ value, onChange }: Props) {
         Price
       </Label>
       <NumericFormat
-        value={safeValue.toFixed(2)} // ✅ solo si es número válido
+        value={safeValue.toFixed(2)}
         onValueChange={(values) => {
           const floatValue = values.floatValue ?? 0;
           onChange(floatValue);

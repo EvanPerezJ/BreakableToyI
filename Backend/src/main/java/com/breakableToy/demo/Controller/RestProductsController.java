@@ -79,16 +79,16 @@ public List<Map<String, Object>> getMetricsByCategory() {
         int stock = product.getStock();
         float totalValue = product.getUnitPrice() * stock;
 
-        // Inicializar si es la primera vez
+        // Initialize params
         if (!metric.containsKey("name")) {
             metric.put("name", category);
             metric.put("totalProducts", 0);
             metric.put("totalValue", 0.0f);
             metric.put("averageValue", 0.0f);
-            metric.put("productCount", 0); // para promedio
+            metric.put("productCount", 0); 
         }
 
-        // Sumar valores
+        
         metric.put("totalProducts", (int) metric.get("totalProducts") + stock);
         metric.put("totalValue", (float) metric.get("totalValue") + totalValue);
         metric.put("averageValue", (float) metric.get("averageValue") + product.getUnitPrice());
@@ -97,13 +97,13 @@ public List<Map<String, Object>> getMetricsByCategory() {
         categoryMetrics.put(category, metric);
         }
 
-        // Calcular promedio y preparar resultado
+        // 
         List<Map<String, Object>> result = new ArrayList<>();
         for (Map<String, Object> metric : categoryMetrics.values()) {
             int count = (int) metric.get("productCount");
             float avg = count > 0 ? ((float) metric.get("averageValue")) / count : 0.0f;
             metric.put("averageValue", avg);
-            metric.remove("productCount"); // quitar campo auxiliar
+            metric.remove("productCount");
             result.add(metric);
         }
 
@@ -123,10 +123,10 @@ public List<Map<String, Object>> getMetricsByCategory() {
 
         
 
-        // 1. Filtrado por categorías (pueden ser varias) y disponibilidad
+        //Category filter
         List<Products> filteredList = new ArrayList<>(productList);
 
-        // Filtrar por varias categorías
+        
         if (category != null && !category.isEmpty()) {
             String[] categories = category.split(",");
             for (int i = 0; i < categories.length; i++) {
@@ -144,7 +144,7 @@ public List<Map<String, Object>> getMetricsByCategory() {
             });
         }
 
-        // Filtrar por disponibilidad
+        // Availabiity filter
         if (!"All".equalsIgnoreCase(availability)) {
             boolean inStock = "InStock".equalsIgnoreCase(availability);
             filteredList.removeIf(p -> p.isInStock() != inStock);
@@ -158,7 +158,7 @@ public List<Map<String, Object>> getMetricsByCategory() {
         
 
 
-        // 2. Ordenamiento
+        // Sorting
         if (sortBy != null && !sortBy.isEmpty()) {
             Comparator<Products> comparator = null;
             switch (sortBy) {

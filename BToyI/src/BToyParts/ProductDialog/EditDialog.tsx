@@ -25,7 +25,6 @@ import {ProductCategory} from './components2/ProductCategory';
 import Stock from './components2/Stock';
 import ExpiryDate from './components2/ExpiryDate';
 import { useProductActions } from '@/products/productData';
-//import { useProducts } from '@/products/productData';
 import * as React from "react";
 
 

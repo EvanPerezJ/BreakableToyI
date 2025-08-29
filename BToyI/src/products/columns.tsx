@@ -6,15 +6,7 @@ import ProductDD from '../BToyParts/Dropdowns/ProductDD';
 import SortingDD from '../BToyParts/Dropdowns/SortingDD';
 import { CheckboxManager } from './CheckboxManager';
 import {Badge} from '@/components/ui/badge'
-//import { useProducts } from '../../products/productData';
-/*
-import { IoMdArrowDown } from 'react-icons/io';
-import { IoMdArrowUp } from 'react-icons/io';
-import { ArrowUpDown } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem } from '@/components/ui/dropdown-menu';
 
-*/
 
 
 export type Product = {
@@ -27,38 +19,6 @@ export type Product = {
     expDate: string | null;
 }
 
-/* Helper function para crear headers con sorting
-const createSortableHeader = (title: string, columnId: string) => {
-    return ({ column }: any) => {
-        const isSorted = column.getIsSorted();
-        const SortingIcon = isSorted === "asc" 
-            ? IoMdArrowUp // Cambié el orden de los iconos
-            : isSorted === "desc" 
-                ? IoMdArrowDown 
-                : ArrowUpDown;
-
-        return (
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" aria-label={`Sort by ${title}`}>
-                        {title}
-                        <SortingIcon className="ml-2 h-4 w-4" />
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align='start' side='bottom'>
-                    <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
-                        <IoMdArrowUp className="mr-2 h-4 w-4"/>
-                        Asc
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
-                        <IoMdArrowDown className="mr-2 h-4 w-4"/>
-                        Desc
-                    </DropdownMenuItem> 
-                </DropdownMenuContent>
-            </DropdownMenu>
-        );
-    };
-}; */
 
 export const columns = (updateSorting: (col: string, dir: 'asc' | 'desc') => void, refetch: ()=> Promise<void>): ColumnDef<Product>[] => [
     
@@ -115,8 +75,8 @@ export const columns = (updateSorting: (col: string, dir: 'asc' | 'desc') => voi
           const stock = info.getValue() as number;
           let variant: "success" | "destructive" | "secondary"  = "success";
 
-          if (stock < 5) variant = "destructive"; // rojo
-          else if (stock >= 5 && stock <= 10) variant = "secondary"; // naranja
+          if (stock < 5) variant = "destructive"; 
+          else if (stock >= 5 && stock <= 10) variant = "secondary"; 
 
           return (
             <Badge variant={variant}>
@@ -141,9 +101,9 @@ export const columns = (updateSorting: (col: string, dir: 'asc' | 'desc') => voi
           const today = new Date();
           const diffDays = Math.ceil((date.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
 
-          if (diffDays < 7) variant = 'destructive'; // rojo
-          else if (diffDays >= 7 && diffDays <= 14) variant = 'secondary'; // amarillo
-          else if (diffDays > 14) variant = 'success'; // verde
+          if (diffDays < 7) variant = 'destructive'; 
+          else if (diffDays >= 7 && diffDays <= 14) variant = 'secondary'; 
+          else if (diffDays > 14) variant = 'success'; 
 
           return (
             <Badge variant={variant}>

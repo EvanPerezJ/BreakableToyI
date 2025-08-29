@@ -1,10 +1,6 @@
-//import {Badge} from "@/components/ui/badge";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-//import { Separator } from "@/components/ui/separator";
-//import { IoClose } from "react-icons/io5";
-//import { AvailabilityDD } from "../BToyParts/Dropdowns/AvailabilityDD";
-//import { CategoryDD } from "../BToyParts/Dropdowns/CategoryDD";
 import { BiFirstPage, BiLastPage } from "react-icons/bi";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import type{
@@ -107,7 +103,7 @@ export function TableP<TData, TValue>({
 
                 </div>
 
-                {/*<FilterArea/>*/}
+              
             </div>
 
             <div className="rounded-md border">

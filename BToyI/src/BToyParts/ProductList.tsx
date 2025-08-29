@@ -18,7 +18,7 @@ const ProductsList = () => {
 
   useEffect(() => {
     fetchProducts(pageInfo.page, pageInfo.size);
-  }, [pageInfo.page, pageInfo.size]); // Corrección: actualiza cuando cambian page o size
+  }, [pageInfo.page, pageInfo.size]);
 
   const fetchProducts = async (page: number, size: number) => {
     try {
@@ -26,7 +26,7 @@ const ProductsList = () => {
         params: { page, size }
       });
 
-      // Verifica que products sea un array
+      
       const productsArray = Array.isArray(response.data.products) ? response.data.products : [];
       setProducts(productsArray);
 
@@ -38,7 +38,7 @@ const ProductsList = () => {
       });
     } catch (error) {
       console.error('Error fetching products:', error);
-      setProducts([]); // En caso de error, pon un array vacío
+      setProducts([]); 
     }
   };
 

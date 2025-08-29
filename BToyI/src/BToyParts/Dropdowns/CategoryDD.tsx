@@ -55,7 +55,7 @@ export function CategoryDD({
 
   const handleApplyFilters = () => {
     onCategoryChange?.(localSelectedCategories);
-    setOpen(false); // opcional: cerrar el popover
+    setOpen(false);
   };
 
   const handleClearFilters = () => {

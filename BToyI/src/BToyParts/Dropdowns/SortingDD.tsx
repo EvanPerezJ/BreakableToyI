@@ -3,7 +3,6 @@ import { ArrowUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { Column } from '@tanstack/react-table';
 import type { Product } from '../../products/columns';
-// ❌ QUITAR: import { useProducts } from '../../products/productData';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,7 +14,7 @@ interface SortingDDProps {
   title: string;
   columnId: string;
   column: Column<Product, unknown>;
-  updateSorting: (col: string, dir: 'asc' | 'desc') => void; // ← Esta función viene como prop
+  updateSorting: (col: string, dir: 'asc' | 'desc') => void;
 }
 
 const SortingDD: React.FC<SortingDDProps> = ({ title, columnId, column, updateSorting }) => {
@@ -24,7 +23,6 @@ const SortingDD: React.FC<SortingDDProps> = ({ title, columnId, column, updateSo
     isSorted === 'asc' ? IoMdArrowUp : isSorted === 'desc' ? IoMdArrowDown : ArrowUpDown;
 
   const handleSort = (direction: 'asc' | 'desc') => {
-    // Llamar tanto a la función de React Table como a la del hook
     column.toggleSorting(direction === 'desc');
     updateSorting(columnId, direction);
   };
