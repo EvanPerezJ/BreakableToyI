@@ -18,7 +18,6 @@ import {ProductCategory} from './components2/ProductCategory';
 import Stock from './components2/Stock';
 import ExpiryDate from './components2/ExpiryDate';
 import { useProductActions } from '@/products/productData';
-//import { useProducts } from '@/products/productData';
 import * as React from "react";
 
 
@@ -37,32 +36,38 @@ export default function ProductDialog({
   const [openDialog, setOpenDialog] = React.useState(false);
 
   const handleAddProduct = async () => {
-    const today = new Date().toISOString().split('T')[0];
+      const today = new Date().toISOString().split('T')[0];
 
-    if(expDate == ''){
-      setExpiryDate(null);
+      // Validation
+      if (!productName.trim() || !category.trim() || unitPrice <= 0 || stock < 0) {
+        console.error("Missing or invalid required fields");
+        return;
+      }
+
+      if (expDate === '') {
+        setExpiryDate(null);
+      }
+
+      const product = {
+        productName,
+        unitPrice,
+        category,
+        expDate,
+        stock,
+        inStock: stock > 0,
+        createdDate: today,
+        modifiedDate: today,
+      };
+
+      try {
+        await addProduct(product);
+        console.log("Product added successfully");
+        await refetch();
+        setOpenDialog(false);
+      } catch (error) {
+        console.error("Error adding product:", error);
+      }
     };
-
-    const product = {
-      productName,
-      unitPrice,
-      category,
-      expDate,
-      stock,
-      inStock: stock > 0,
-      createdDate: today,
-      modifiedDate: today,
-    };
-
-    try {
-      await addProduct(product);
-      console.log("Producto agregado correctamente");
-      await refetch(); // 👈 actualiza la tabla
-      setOpenDialog(false); // 👈 cierra el diálogo
-    } catch (error) {
-      console.error("Error al agregar producto:", error);
-    }
-  };
 
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
