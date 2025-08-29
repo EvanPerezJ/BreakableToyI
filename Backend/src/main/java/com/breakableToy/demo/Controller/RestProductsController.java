@@ -45,13 +45,13 @@ productList.add(new Products(11L, "T-Shirt", 46f, "Clothing", "2025-12-31", 0,fa
 productList.add(new Products(12L, "Jeans", 64f, "Clothing", "2025-12-31", 23,true,"2023-10-01","2023-10-01"));
 productList.add(new Products(13L, "Jacket", 48f, "Clothing", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
 productList.add(new Products(14L, "Dress", 20f, "Clothing", "2025-12-31", 27,true,"2023-10-01","2023-10-01"));
-productList.add(new Products(15L, "Sweater", 96f, "Clothing", "2025-12-31", 12,true,"2023-10-01","2023-10-01"));
+productList.add(new Products(15L, "Sweater", 96f, "Clothing", null, 12,true,"2023-10-01","2023-10-01"));
 
 productList.add(new Products(16L, "Puzzle", 25f, "Toys", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
 productList.add(new Products(17L, "Action Figure", 57f, "Toys", "2025-12-31", 1,true,"2023-10-01","2023-10-01"));
 productList.add(new Products(18L, "Board Game", 83f, "Toys", "2025-12-31", 8,true,"2023-10-01","2023-10-01"));
 productList.add(new Products(19L, "Doll", 5f, "Toys", "2025-12-31", 24,true,"2023-10-01","2023-10-01"));
-productList.add(new Products(20L, "Lego", 54f, "Toys", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
+productList.add(new Products(20L, "Lego", 54f, "Toys", null, 0,false,"2023-10-01","2023-10-01"));
 
 productList.add(new Products(21L, "Apple", 88f, "Groceries", "2025-12-31", 0,false,"2023-10-01","2023-10-01"));
 productList.add(new Products(22L, "Bread", 57f, "Groceries", "2025-12-31", 19,true,"2023-10-01","2023-10-01"));

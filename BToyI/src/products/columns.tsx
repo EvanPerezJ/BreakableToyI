@@ -4,6 +4,7 @@ import { FaCheck } from 'react-icons/fa';
 import { IoClose } from 'react-icons/io5';
 import ProductDD from '../BToyParts/Dropdowns/ProductDD';
 import SortingDD from '../BToyParts/Dropdowns/SortingDD';
+import { CheckboxManager } from './CheckboxManager';
 //import { useProducts } from '../../products/productData';
 /*
 import { IoMdArrowDown } from 'react-icons/io';
@@ -58,22 +59,16 @@ const createSortableHeader = (title: string, columnId: string) => {
     };
 }; */
 
-export const columns = (updateSorting: (col: string, dir: 'asc' | 'desc') => void): ColumnDef<Product>[] => [
+export const columns = (updateSorting: (col: string, dir: 'asc' | 'desc') => void, refetch: ()=> Promise<void>): ColumnDef<Product>[] => [
     
 
-    {
+    {    
       id: 'select',
       header: '',
-      cell: ({ row }) => (
-        <input
-          type="checkbox"
-          checked={row.getIsSelected()}
-          onChange={row.getToggleSelectedHandler()}
-          aria-label={`Select row ${row.index + 1}`}
-        />
-      ),
+      cell: ({ row }) => <CheckboxManager refetch={refetch} row={row} />,
       enableSorting: false,
       enableHiding: false,
+
     },
     {
       accessorKey: 'id',
@@ -133,7 +128,7 @@ export const columns = (updateSorting: (col: string, dir: 'asc' | 'desc') => voi
     {
       id: 'actions',
       header: 'Actions',
-      cell: ({ row }) => <ProductDD row={row} />,
+      cell: ({ row }) => <ProductDD refetch={refetch} row={row} />,
       enableSorting: false,
     },
   ];

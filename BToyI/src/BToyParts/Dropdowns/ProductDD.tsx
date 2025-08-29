@@ -38,7 +38,13 @@ import * as React from "react";
 
 
 
-export default function ProductDD({ row }: { row: Row<Product> }) {
+export default function ProductDD({
+  row,
+  refetch,
+}: {
+  row: Row<Product>;
+  refetch: () => Promise<void>;
+}) {
   const { updateProduct, getProductById, deleteProduct} = useProductActions();
 
   const [id] = React.useState(row.original.id);
@@ -87,17 +93,20 @@ export default function ProductDD({ row }: { row: Row<Product> }) {
           
           <DropdownMenuItem
             className="flex items-center gap-1 p-[10px] text-red-600"
-
-            onClick={
-              () => {
+            onClick={async () => {
                 const confirmed = window.confirm("Are you sure you want to delete this product?");
                 if (confirmed) {
-                  deleteProduct(id)
-                    .then(() => console.log("Producto eliminado correctamente"))
-                    .catch((error) => console.error("Error al eliminar producto:", error));
+                  try {
+                    await deleteProduct(id);
+                    console.log("Producto eliminado correctamente");
+                    await refetch();
+                  } catch (error) {
+                    console.error("Error al eliminar producto:", error);
+                  }
                 }
               }
             }
+
           >
             <MdOutlineDelete className="text-lg" />
             <span>Delete</span>
@@ -153,6 +162,7 @@ export default function ProductDD({ row }: { row: Row<Product> }) {
                   await updateProduct(id,product);
                   console.log("Producto agregado correctamente");
                   setOpenDialog(false);
+                  refetch();
                 } catch (error) {
                   console.error("Error al agregar producto:", error);
                 }

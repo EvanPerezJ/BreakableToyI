@@ -1,5 +1,5 @@
 import { TableP } from '../products/TableP';
-import { columns } from '../products/columns'; // Función que recibe updateSorting
+import { columns } from '../products/columns';
 import { useProducts } from '../products/productData';
 import { CategoryDD } from './Dropdowns/CategoryDD';
 import { AvailabilityDD } from './Dropdowns/AvailabilityDD';
@@ -31,7 +31,7 @@ export default function AppTable() {
         size: 10
     });
 
-    // Manejar estados de loading y error
+    // Error and states managing
     if (loading) {
         return (
             <div className="flex items-center justify-center p-8">
@@ -56,26 +56,24 @@ export default function AppTable() {
         );
     }
 
-    // AQUÍ está la clave: pasar updateSorting a la función columns
-    const tableColumns = columns(updateSorting);
+    const tableColumns = columns(updateSorting,refetch);
 
     return (
         <div className="space-y-4">
-            {/* Controles de filtros */}
+
             <div className="flex items-center justify-between">
                 <div className="text-sm text-gray-500">
                     Showing {products.length} from {pagination.totalProducts} products founded.
                 </div>
                 
                 <div className="flex items-center space-x-2">
-                    {/* Componente de filtro por categoría */}
+
                     <CategoryDD     
                         selectedCategories={selectedCategories}
                         onCategoryChange={(categories) => filterByCategory(categories)}
                         products={products}
                     />
                     
-                    {/* Componente de filtro por disponibilidad */}
                     <AvailabilityDD
                         selectedAvailability={selectedAvailability}
                         onAvailabilityChange={filterByAvailability}
@@ -88,25 +86,21 @@ export default function AppTable() {
                         Reset filters
                     </Button>
                     
-                    <ProductDialog/>
+                    <ProductDialog refetch={refetch}/>
                 </div>
             </div>
 
-            {/* TableP con las columnas que YA tienen updateSorting */}
+            
             <TableP
                 data={products}
-                columns={tableColumns} // ← Usar las columnas con updateSorting ya incluido
+                columns={tableColumns} 
                 page={pagination.page}
                 totalPages={pagination.totalPages}
                 setPage={changePage}
                 totalProducts={pagination.totalProducts}
                 pageSize={pagination.size}
                 isLoading={loading}
-                onSortChange={updateSorting} // También puedes pasarlo como prop si lo necesitas
-                // Remover estos props ya que los filtros se manejan arriba
-                // onCategoryFilter={filterByCategory}
-                // onAvailabilityFilter={filterByAvailability}
-                // onClearFilters={clearFilters}
+                onSortChange={updateSorting}
             />
 
             <Section />

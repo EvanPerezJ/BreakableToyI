@@ -8,7 +8,7 @@ interface Props {
 }
 
 export default function Stock({ value, onChange }: Props) {
-  const isInvalid = value <= 0;
+  const isInvalid = value < 0 ;
 
   return (
     <div className="flex flex-col gap-2 pt-[6px]">
