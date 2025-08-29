@@ -16,6 +16,7 @@ export interface ProductsParams {
     sortBy?: string;
     sortOrder?: 'asc' | 'desc';
     category?: string;
+    search?: string;
     availability?: 'All' | 'InStock' | 'OutOfStock' | string;
 }
 
@@ -31,6 +32,8 @@ const fetchProductsFromAPI = async (params: ProductsParams): Promise<ProductApiR
     if (params.sortOrder) queryParams.append('sortOrder', params.sortOrder);
     if (params.category) queryParams.append('category', params.category);
     if (params.availability) queryParams.append('availability', params.availability);
+    if (params.search) queryParams.append('search', params.search);
+
 
     const response = await fetch(`${API_URL}/products?${queryParams.toString()}`);
     
@@ -47,10 +50,12 @@ export async function fetchProducts(page: number = 1, size: number = 10): Promis
 }
 
 //HOOK
+
 export const useProducts = (initialParams: ProductsParams = {}) => {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+
     const [pagination, setPagination] = useState({
         page: 1,
         size: 10,
@@ -65,10 +70,10 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
         sortOrder: 'asc',
         category: '',
         availability: 'All',
+        search:'',
         ...initialParams
     });
 
-    // Estados para los filtros actuales
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const [selectedAvailability, setSelectedAvailability] = useState<string | null>(null);
 
@@ -79,10 +84,8 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
     const fetchData = async () => {
         setLoading(true);
         setError(null);
-        
         try {
             const data = await fetchProductsFromAPI(params);
-            
             setProducts(data.products);
             setPagination({
                 page: data.page,
@@ -90,7 +93,6 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
                 totalPages: data.totalPages,
                 totalProducts: data.totalProducts
             });
-            
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Error fetching products');
             console.error('Error fetching products:', err);
@@ -107,21 +109,15 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
             if (!res.ok) throw new Error("Error fetching metrics");
             const data = await res.json();
             setMetrics(data);
-        } catch (err: unknown) { 
-            if (err instanceof Error) {
-                setMetricsError(err.message);
-            } else {
-                setMetricsError("Unknown error fetching metrics");
-            }
+        } catch (err: unknown) {
+            setMetricsError(err instanceof Error ? err.message : "Unknown error fetching metrics");
         } finally {
             setMetricsLoading(false);
         }
     };
 
-    // Funciones para controlar el hook
     const updateParams = (newParams: Partial<ProductsParams>) => {
-        setParams((prev: ProductsParams) => ({ ...prev, ...newParams }));
-        console.log("Updated params:", { ...params, ...newParams });
+        setParams(prev => ({ ...prev, ...newParams }));
     };
 
     const changePage = (newPage: number) => {
@@ -133,16 +129,13 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
     };
 
     const updateSorting = (columnId: string, direction: 'asc' | 'desc') => {
-        const columnMapping: { [key: string]: string } = {
-            'name': 'name',
-            'category': 'category', 
-            'price': 'price',
-            'stock': 'stock',
-            'expiryDate': 'expiryDate'
+        const columnMapping: Record<string, string> = {
+            name: 'name',
+            category: 'category',
+            price: 'price',
+            stock: 'stock',
+            expiryDate: 'expiryDate'
         };
-
-        console.log("updateSorting called with:", columnId, direction); 
-
         const apiColumnName = columnMapping[columnId];
         if (apiColumnName) {
             updateParams({
@@ -155,33 +148,33 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
 
     const filterByCategory = (categories: string[]) => {
         setSelectedCategories(categories);
-        updateParams({ 
+        updateParams({
             category: categories.length > 0 ? categories.join(',') : '',
-            page: 1 
+            page: 1
         });
     };
 
     const filterByAvailability = (availability: string | null) => {
-        //Map for the API params expected
         let apiAvailability: string;
-        
-        if (availability === null || availability === 'All') {
-            apiAvailability = 'All';
-            setSelectedAvailability(null);
-        } else if (availability === 'InStock') {
-            apiAvailability = 'InStock';
-            setSelectedAvailability('InStock');
-        } else if (availability === 'OutofStock') {
-            apiAvailability = 'OutOfStock'; 
-            setSelectedAvailability('OutofStock');
-        } else {
-            apiAvailability = 'All';
-            setSelectedAvailability(null);
+        switch (availability) {
+            case 'InStock':
+                apiAvailability = 'InStock';
+                setSelectedAvailability('InStock');
+                break;
+            case 'OutofStock':
+                apiAvailability = 'OutOfStock';
+                setSelectedAvailability('OutofStock');
+                break;
+            case 'All':
+            case null:
+            default:
+                apiAvailability = 'All';
+                setSelectedAvailability(null);
+                break;
         }
-
-        updateParams({ 
+        updateParams({
             availability: apiAvailability,
-            page: 1 
+            page: 1
         });
     };
 
@@ -197,15 +190,26 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
         });
     };
 
-    // fetch effect when params are modified
+    // Efecto para cargar productos cuando cambian los parámetros
     useEffect(() => {
+        console.log("Params changed:", params);
         fetchData();
-    }, [params.page, params.size, params.sortBy, params.sortOrder, params.category, params.availability]);
+    }, [params]);
 
-    // Effect to load metrics automated
+    // Efecto para cargar métricas una sola vez
     useEffect(() => {
-        fetchMetrics();
+    fetchMetrics();
     }, [products]);
+
+    const [searchTerm] = useState('');
+
+    const updateSearch = (term: string) => {
+        setParams((prev) => ({
+            ...prev,
+            search: term,
+            page: 1,
+        }));
+    };
 
     return {
         products,
@@ -220,14 +224,17 @@ export const useProducts = (initialParams: ProductsParams = {}) => {
         filterByAvailability,
         clearFilters,
         refetch: fetchData,
+        searchTerm,
+        updateSearch,
         selectedCategories,
         selectedAvailability,
         metrics,
         metricsLoading,
         metricsError,
-        refetchMetrics: fetchMetrics, 
+        refetchMetrics: fetchMetrics
     };
 };
+
 
 export const useProductActions = () => {
   const addProduct = async (product: Omit<Product, 'id'>) => {

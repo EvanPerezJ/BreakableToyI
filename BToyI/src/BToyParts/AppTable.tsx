@@ -16,8 +16,10 @@ export default function AppTable() {
         loading,
         error,
         pagination,
+        params,
         changePage,
         updateSorting,
+        updateSearch,
         filterByCategory,
         filterByAvailability,
         clearFilters,
@@ -101,6 +103,8 @@ export default function AppTable() {
                 pageSize={pagination.size}
                 isLoading={loading}
                 onSortChange={updateSorting}
+                updateSearch={updateSearch}
+                searchTerm={params.search}
             />
 
             <Section />

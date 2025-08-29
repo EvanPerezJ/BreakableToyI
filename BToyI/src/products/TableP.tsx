@@ -11,6 +11,8 @@ import type{
   ColumnDef
 } from "@tanstack/react-table"
  
+import * as React from "react";
+
 import{
   flexRender,
   getCoreRowModel,
@@ -33,22 +35,25 @@ interface DataTableProps<TData, TValue> {
     page: number
     totalPages: number
     setPage: (page: number) => void
-
     totalProducts?: number
     pageSize?: number
     isLoading?: boolean
+    searchTerm?: string
     onSortChange?: (columnId: string, direction: 'asc' | 'desc' ) => void
     onCategoryFilter?: (categories: string[]) => void
     onAvailabilityFilter?: (availability: 'All' | 'InStock' | 'OutOfStock') => void
     onClearFilters?: () => void
+    updateSearch?: (term: string) => void
 }
 
 export function TableP<TData, TValue>({
     columns,
     data,
     page,
+    searchTerm,
     totalPages,
     setPage,
+    updateSearch,
 }: DataTableProps<TData, TValue>) {
     const table = useReactTable({
         data,
@@ -56,18 +61,52 @@ export function TableP<TData, TValue>({
         getCoreRowModel: getCoreRowModel(),
     });
 
+    const[searchInput,setSearchInput] = React.useState('');
+
     return (
         <div className="">
            <div className="flex flex-col gap-3 mb-8 mt-6">
                 <div className="flex justify-between items-center">
-                    <Input placeholder="Search by name" className="max-w-sm h-10"/>
-                    {/* <div className="flex items-center gap-4">
-                        <CategoryDD 
-                        selectedCategories={}
-                        onCategoryChange={onCategoryFilter()}
-                    />
-                        <AvailabilityDD onAvailabilityChange={onAvailabilityFilter()}/>
-                    </div>*/}
+                    <form
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            if (searchInput.trim()) {
+                            updateSearch?.(searchInput.trim());
+                            setSearchInput('');
+                            }
+                        }}
+                        className="flex items-center gap-2"
+                        >
+                        <Input
+                            placeholder="Search by name"
+                            className="max-w-sm h-10"
+                            value={searchInput}
+                            onChange={(e) => setSearchInput(e.target.value)}
+                        />
+                        <Button type="submit" className="h-10">
+                            Buscar
+                        </Button>
+                    </form>
+                    
+                    {searchTerm && (
+                        <div className="flex items-center gap-2 mt-2">
+                            <span className="text-sm text-muted-foreground">Filter by:</span>
+                            <div className="flex items-center gap-1 bg-muted px-3 py-1 rounded-full text-sm">
+                            <span className="font-medium">{searchTerm}</span>
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                className="p-0 h-auto text-muted-foreground"
+                                onClick={() => updateSearch?.('')}
+                            >
+                                <GrFormPrevious className="text-lg" />
+                            </Button>
+                            </div>
+                        </div>
+                        )
+                    }
+
+
                 </div>
 
                 {/*<FilterArea/>*/}

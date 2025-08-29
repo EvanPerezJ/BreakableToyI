@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import com.breakableToy.demo.Entities.Products;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -114,7 +117,11 @@ public List<Map<String, Object>> getMetricsByCategory() {
             @RequestParam(required = false) String sortBy,
             @RequestParam(defaultValue = "asc") String sortOrder,
             @RequestParam(required = false) String category,
-            @RequestParam(defaultValue = "All") String availability) {
+            @RequestParam(defaultValue = "All") String availability,
+            @RequestParam(required = false) String search) {
+
+
+        
 
         // 1. Filtrado por categorías (pueden ser varias) y disponibilidad
         List<Products> filteredList = new ArrayList<>(productList);
@@ -143,6 +150,11 @@ public List<Map<String, Object>> getMetricsByCategory() {
             filteredList.removeIf(p -> p.isInStock() != inStock);
         }
 
+        if (search != null && !search.trim().isEmpty()) {
+            String searchLower = search.toLowerCase();
+            filteredList.removeIf(p -> p.getProductName() == null || !p.getProductName().toLowerCase().contains(searchLower));
+        }
+
         // 2. Ordenamiento
         if (sortBy != null && !sortBy.isEmpty()) {
             Comparator<Products> comparator = null;
@@ -160,7 +172,28 @@ public List<Map<String, Object>> getMetricsByCategory() {
                     comparator = Comparator.comparing(Products::getStock);
                     break;
                 case "expiryDate":
-                    comparator = Comparator.comparing(Products::getExpDate);
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    comparator = (p1, p2) -> {
+                        String s1 = p1.getExpDate();
+                        String s2 = p2.getExpDate();
+
+                        LocalDate d1 = null;
+                        LocalDate d2 = null;
+
+                        try {
+                            if (s1 != null && !s1.isEmpty()) d1 = LocalDate.parse(s1, formatter);
+                        } catch (DateTimeParseException ignored) {}
+
+                        try {
+                            if (s2 != null && !s2.isEmpty()) d2 = LocalDate.parse(s2, formatter);
+                        } catch (DateTimeParseException ignored) {}
+
+                        if (d1 == null && d2 == null) return 0;
+                        if (d1 == null) return "asc".equalsIgnoreCase(sortOrder) ? -1 : 1;
+                        if (d2 == null) return "asc".equalsIgnoreCase(sortOrder) ? 1 : -1;
+
+                        return d1.compareTo(d2);
+                    };
                     break;
             }
             if (comparator != null) {
