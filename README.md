@@ -60,7 +60,7 @@ The backend runs on **port 9090** to avoid conflicts with the frontend.
 
 1.  Navigate to the backend folder:
     ```bash
-    cd backend
+    cd Backend
     ```
 2.  Run the application using Maven:
     ```bash
@@ -75,7 +75,7 @@ The frontend uses Vite and runs on **port 8080** (default).
 
 1.  Navigate to the frontend folder:
     ```bash
-    cd frontend
+    cd BToyI
     ```
 2.  Install dependencies (first time only):
     ```bash
