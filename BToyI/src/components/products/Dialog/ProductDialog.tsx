@@ -12,12 +12,12 @@ import {
 
 import { Separator } from '@/components/ui/separator';
 
-import ProductName from './components2/ProductName';
-import Price from './components2/Price';
-import {ProductCategory} from './components2/ProductCategory';
-import Stock from './components2/Stock';
-import ExpiryDate from './components2/ExpiryDate';
-import { useProductActions } from '@/products/productData';
+import ProductName from './ProductName';
+import Price from './Price';
+import {ProductCategory} from './ProductCategory';
+import Stock from './Stock';
+import ExpiryDate from './ExpiryDate';
+import { useProductActions } from '@/components/products/productData';
 import * as React from "react";
 
 
